@@ -1,0 +1,31 @@
+{
+  "name": "kegeland-api",
+  "version": "1.0.0",
+  "description": "TDT429 group project",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "start:dev": "ts-node-dev ./index.ts",
+    "start": "ts-node-dev ./index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TDT4290-Gruppe-10/kegeland-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TDT4290-Gruppe-10/kegeland-api/issues"
+  },
+  "homepage": "https://github.com/TDT4290-Gruppe-10/kegeland-api#readme",
+  "devDependencies": {
+    "@types/express": "^4.17.14",
+    "@types/node": "^18.7.18",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^4.8.3"
+  },
+  "dependencies": {
+    "express": "^4.18.1",
+    "firebase": "^9.10.0"
+  }
+}
