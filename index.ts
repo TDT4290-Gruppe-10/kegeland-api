@@ -1,29 +1,29 @@
 import express, { Application, Request, Response } from "express";
-import { initializeApp } from 'firebase/app';
+import firebaseClient from "./firebase.client";
+
+
 
 const app: Application = express();
-const port = 3000;
+const port = 8000;
 
-var firebaseConfig = {
-    apiKey: "YOUR KEY",
-    authDomain: "YOUR PROJECT.firebaseapp.com",
-    projectId: "YOUR PROJECT ID",
-    storageBucket: "YOUR PROJECT.appspot.com",
-    messagingSenderId: "MESSAGING ID",
-    appId: "YOUR APP ID"
-};
+
+
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get(
     "/users",
-    async (req: Request, res: Response): Promise<Response> => {
-        return res.status(200).send({
-            message: "Welcome to Kegeland!",
-        });
+    async (req: Request, res: Response) => {
+        const data = await firebaseClient.collection("users").get().then((col) => {
+            return res.json(col.docs)
+        }).catch((err) => console.log(err))
+        res.status(200).json(data)
     }
 );
+
+
 
 app.post("/",
     async (req: Request, res: Response): Promise<Response> => {
