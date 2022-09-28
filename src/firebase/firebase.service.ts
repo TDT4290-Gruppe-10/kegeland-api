@@ -1,7 +1,8 @@
-import { OnModuleInit, Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { OnModuleInit, Injectable, Inject } from '@nestjs/common';
+import { ConfigType } from '@nestjs/config';
 import * as admin from 'firebase-admin';
-import { FirebaseApp } from 'firebase/app';
+import { initializeApp, FirebaseApp } from 'firebase/app';
+import firebaseConfig from 'src/config/firebase.config';
 
 @Injectable()
 export class FirebaseService implements OnModuleInit {
@@ -9,17 +10,20 @@ export class FirebaseService implements OnModuleInit {
   public firestore: admin.firestore.Firestore;
   public firebase: FirebaseApp;
 
-  constructor(private readonly configService: ConfigService) {}
+  constructor(
+    @Inject(firebaseConfig.KEY)
+    private config: ConfigType<typeof firebaseConfig>,
+  ) {}
 
   onModuleInit() {
     // Initialize the admin-sdk
     this.firebaseAdmin = admin.initializeApp({
-      credential: admin.credential.cert(
-        this.configService.get<string>('GOOGLE_APPLICATION_CREDENTIALS'),
-      ),
+      credential: admin.credential.cert(this.config.admin.credPath),
     });
-
     // Initialize firestore client
     this.firestore = admin.firestore(this.firebaseAdmin);
+
+    // Initialize firebase client
+    this.firebase = initializeApp(this.config.sdk);
   }
 }
