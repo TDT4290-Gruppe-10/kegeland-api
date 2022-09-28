@@ -39,3 +39,7 @@ lerna-debug.log*
 
 # Firebase
 /firebase.config.json
+
+# Jest
+.jest/
+coverage/
