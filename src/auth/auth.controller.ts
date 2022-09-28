@@ -17,7 +17,7 @@ export class AuthController {
 
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('login')
-  login(@Body() loginCredentials: LoginCredentials) {
+  async login(@Body() loginCredentials: LoginCredentials): Promise<UserEntity> {
     return this.authService
       .login(loginCredentials)
       .then((res) => new UserEntity(res._tokenResponse));
@@ -25,7 +25,9 @@ export class AuthController {
 
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('register')
-  register(@Body() registerCredentials: RegisterCredentials) {
+  async register(
+    @Body() registerCredentials: RegisterCredentials,
+  ): Promise<UserEntity> {
     return this.authService
       .register(registerCredentials)
       .then((res) => new UserEntity(res._tokenResponse));
