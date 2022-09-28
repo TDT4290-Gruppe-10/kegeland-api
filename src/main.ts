@@ -1,8 +1,9 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { initializeApp } from 'firebase-admin/app';
 import { credential } from 'firebase-admin';
 import { ConfigService } from '@nestjs/config';
+
+import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
