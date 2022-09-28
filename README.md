@@ -1,3 +1,6 @@
+![CI/CD](https://github.com/TDT4290-Gruppe-10/kegeland-api/actions/workflows/on-pull-request.yml/badge.svg)
+[![codecov](https://codecov.io/gh/TDT4290-Gruppe-10/kegeland-api/branch/main/graph/badge.svg?token=WNR65GN461)](https://codecov.io/gh/TDT4290-Gruppe-10/kegeland-api)
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
