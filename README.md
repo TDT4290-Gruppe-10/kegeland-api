@@ -1,29 +1,27 @@
 ![CI/CD](https://github.com/TDT4290-Gruppe-10/kegeland-api/actions/workflows/on-pull-request.yml/badge.svg)
 [![codecov](https://codecov.io/gh/TDT4290-Gruppe-10/kegeland-api/branch/main/graph/badge.svg?token=WNR65GN461)](https://codecov.io/gh/TDT4290-Gruppe-10/kegeland-api)
 
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Getting started
+Rename `.env.example` to `.env`. Thereby, you will need credentials for a google service account and a firebase web app.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+### Configure service acccount
+1. Go the dashboard for your firebase-project, and navigate to Project settings
+2. Select the tab named **Service accounts**.
+3. Make sure **Firebase Admin SDK** is selected, and press **Generate new private key**. This will download new credentials for a google service account.
+4. Move the downloaded file to the root-directory of this project, and rename it to `firebase.config.json`.
+
+### Configure Firebase SDK
+1. Go the dashboard for your firebase-project, and navigate to Project settings
+2. In the tab **General**, scroll to the section called **Your apps**.
+3. Select a *Web App* and locate the code ```const firebaseConfig = {...}```
+4. Copy these values to their respective fields in the `.env`-file you created. 
+> **_NOTE_**: Make sure you don't have quotation-marks around the values.
+
+Follow the steps under [Installation](#installation) and [Running the app](#running-the-app).
+
+Once the app is running you can navigate to ```http://localhost:<SERVER_PORT>/api/docs``` for OpenApi-documentation of the endpoints.
+> **_NOTE_**: `SERVER_PORT` is the value specified in your `.env`-file.
 
 ## Description
 
