@@ -12,7 +12,7 @@ export class FirebaseService implements OnModuleInit {
 
   constructor(
     @Inject(firebaseConfig.KEY)
-    private config: ConfigType<typeof firebaseConfig>,
+    private readonly config: ConfigType<typeof firebaseConfig>,
   ) {}
 
   onModuleInit() {
