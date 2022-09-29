@@ -8,7 +8,9 @@ import {
 
 import { AuthService } from './auth.service';
 import { LoginCredentials } from './dto/login-credentials.dto';
+import { RefreshToken } from './dto/refresh-token.dto';
 import { RegisterCredentials } from './dto/register-credentials.dto';
+import { TokenCredentials } from './entities/token-credentials.entity';
 import { UserEntity } from './entities/user.entity';
 
 @Controller('auth')
@@ -31,5 +33,13 @@ export class AuthController {
     return this.authService
       .register(registerCredentials)
       .then((res) => new UserEntity(res._tokenResponse));
+  }
+
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Post('refresh')
+  async refresh(@Body() refreshToken: RefreshToken): Promise<TokenCredentials> {
+    return this.authService
+      .refresh(refreshToken)
+      .then((res) => new TokenCredentials(res));
   }
 }
