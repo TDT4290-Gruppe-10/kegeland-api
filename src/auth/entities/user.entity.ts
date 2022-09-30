@@ -1,30 +1,23 @@
-import { Exclude } from 'class-transformer';
+import { Exclude, Expose, Type } from 'class-transformer';
 import { ApiHideProperty } from '@nestjs/swagger';
+
+import { UserDetailsEntity } from './user-details.entity';
+import { TokenCredentials } from './token-credentials.entity';
 
 export class UserEntity {
   /**
    * @example 'ola.nordmann@gmail.com'
    */
+  @Expose()
   email: string;
-  /**
-   * @example Doofern
-   */
-  displayName: string | null;
-  idToken: string;
-  refreshToken: string;
-  /**
-   * The tokens TTL in seconds
-   * @example 3600
-   */
-  expiresIn: number;
 
-  @Exclude()
-  @ApiHideProperty()
-  kind: string;
+  @Expose()
+  @Type(() => UserDetailsEntity)
+  details: UserDetailsEntity;
 
-  @Exclude()
-  @ApiHideProperty()
-  registered: boolean;
+  @Expose()
+  @Type(() => TokenCredentials)
+  tokens: TokenCredentials;
 
   constructor(partial: Partial<UserEntity>) {
     Object.assign(this, partial);
