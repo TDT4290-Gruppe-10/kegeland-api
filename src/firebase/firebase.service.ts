@@ -1,14 +1,13 @@
 import { OnModuleInit, Injectable, Inject } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import * as admin from 'firebase-admin';
-import { initializeApp, FirebaseApp } from 'firebase/app';
+import { initializeApp } from 'firebase/app';
 import firebaseConfig from 'src/config/firebase.config';
 
 @Injectable()
 export class FirebaseService implements OnModuleInit {
   public firebaseAdmin: admin.app.App;
   public firestore: admin.firestore.Firestore;
-  public firebase: FirebaseApp;
 
   constructor(
     @Inject(firebaseConfig.KEY)
@@ -24,6 +23,6 @@ export class FirebaseService implements OnModuleInit {
     this.firestore = admin.firestore(this.firebaseAdmin);
 
     // Initialize firebase client
-    this.firebase = initializeApp(this.config.sdk);
+    initializeApp(this.config.sdk);
   }
 }
