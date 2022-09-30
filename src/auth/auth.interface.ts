@@ -1,10 +1,12 @@
-import { UserCredential } from 'firebase/auth';
-
-import { UserEntity } from './entities/user.entity';
-
-export interface AuthResponse extends UserCredential {
-  _tokenResponse: Partial<UserEntity>;
-}
+export type RefreshResponse = {
+  access_token: string;
+  expires_in: string;
+  token_type: string;
+  refresh_token: string;
+  id_token: string;
+  user_id: string;
+  project_id: string;
+};
 
 export type RefreshErrorResponse = {
   error: {

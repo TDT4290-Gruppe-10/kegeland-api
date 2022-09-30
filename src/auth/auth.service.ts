@@ -2,27 +2,25 @@ import {
   BadRequestException,
   Injectable,
   InternalServerErrorException,
-  ServiceUnavailableException,
-  UnauthorizedException,
   Inject,
 } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-} from 'firebase/auth';
-import { FirebaseError } from 'firebase/app';
+import { getAuth } from 'firebase-admin/auth';
 import firebaseConfig from 'src/config/firebase.config';
 import { ConfigType } from '@nestjs/config';
+import { FirebaseService } from 'src/firebase/firebase.service';
+import { plainToInstance } from 'class-transformer';
 
 import { isAxiosError } from '../utils/isAxiosError';
 
 import { LoginCredentials } from './dto/login-credentials.dto';
 import { RegisterCredentials } from './dto/register-credentials.dto';
-import { AuthResponse, RefreshErrorResponse } from './auth.interface';
+import { RefreshErrorResponse, RefreshResponse } from './auth.interface';
 import { RefreshToken } from './dto/refresh-token.dto';
 import { TokenCredentials } from './entities/token-credentials.entity';
+import { signInUser } from './auth.helpers';
+import { UserDetailsEntity } from './entities/user-details.entity';
+import { UserEntity } from './entities/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -30,77 +28,73 @@ export class AuthService {
     @Inject(firebaseConfig.KEY)
     private readonly config: ConfigType<typeof firebaseConfig>,
     private readonly httpService: HttpService,
+    private readonly firebaseService: FirebaseService,
   ) {}
 
   async login(loginCredentials: LoginCredentials) {
     const { email, password } = loginCredentials;
-    const auth = getAuth();
-    return signInWithEmailAndPassword(auth, email, password)
-      .then((res) => res as AuthResponse)
-      .catch((err) => {
-        if (err instanceof FirebaseError) {
-          switch (err.code) {
-            case 'auth/invalid-email':
-              throw new BadRequestException('This email is already in use.');
-            case 'auth/user-disabled':
-              throw new UnauthorizedException('This user has been disabled.');
-            case 'auth/user-not-found':
-            case 'auth/wrong-password':
-              throw new BadRequestException(
-                'The email and/or password is invalid.',
-              );
-          }
-        }
-        if (err instanceof Error) {
-          throw new InternalServerErrorException(err.message);
-        }
-        throw new InternalServerErrorException(
-          'An unknown error has occurred.',
-        );
-      });
+    const { id, tokens } = await signInUser(email, password);
+    const details = await this.firebaseService.firestore
+      .collection('userDetails')
+      .doc(id)
+      .get()
+      .then((res) => plainToInstance(UserDetailsEntity, res.data()));
+    return plainToInstance(UserEntity, { email, details, tokens });
   }
 
   async register(registerCredentials: RegisterCredentials) {
-    const { email, password } = registerCredentials;
+    const { email, password, ...details } = registerCredentials;
     const auth = getAuth();
-    return createUserWithEmailAndPassword(auth, email, password)
-      .then((res) => res as AuthResponse)
+    console.log(registerCredentials);
+    // Create new user and set custom roles
+    const userId = await this.firebaseService.firebaseAdmin
+      .auth()
+      .createUser({ email, password })
+      .then((res) => {
+        auth.setCustomUserClaims(res.uid, { roles: details.roles });
+        return res.uid;
+      })
       .catch((err) => {
-        if (err instanceof FirebaseError) {
-          switch (err.code) {
-            case 'auth/email-already-in-use':
-              throw new BadRequestException('This email is already in use.');
-            case 'auth/invalid-email':
-              throw new BadRequestException('This email is invalid.');
-            case 'auth/operation-not-allowed':
-              throw new ServiceUnavailableException(
-                'This operation is not permitted.',
-              );
-            case 'auth/weak-password':
-              throw new BadRequestException(
-                'The password must be at least 6 characters.',
-              );
-          }
+        if (err instanceof Error) {
+          throw new BadRequestException(err.message);
         }
+        throw new InternalServerErrorException();
+      });
+    // Add additional user details
+    await this.firebaseService.firestore
+      .collection('userDetails')
+      .doc(userId)
+      .set(details)
+      .catch((err) => {
         if (err instanceof Error) {
           throw new InternalServerErrorException(err.message);
         }
-        throw new InternalServerErrorException(
-          'An unknown error has occurred.',
-        );
+        throw new InternalServerErrorException();
       });
+
+    // Sign in user and generate tokens
+    const { tokens } = await signInUser(email, password);
+    return plainToInstance(UserEntity, { email, details, tokens });
   }
 
   async refresh({ refreshToken }: RefreshToken) {
     return this.httpService.axiosRef
-      .post<TokenCredentials>(
+      .post<RefreshResponse>(
         `https://securetoken.googleapis.com/v1/token?key=${this.config.sdk.apiKey}`,
         {
           grant_type: 'refresh_token',
           refresh_token: refreshToken,
         },
       )
-      .then((res) => res.data)
+      .then((res) => {
+        const { access_token, id_token, refresh_token, expires_in } = res.data;
+        return new TokenCredentials({
+          accessToken: access_token,
+          idToken: id_token,
+          refreshToken: refresh_token,
+          expiresIn: parseInt(expires_in),
+        });
+      })
       .catch((err) => {
         if (isAxiosError<RefreshErrorResponse>(err)) {
           const { message } = err.response.data.error;
