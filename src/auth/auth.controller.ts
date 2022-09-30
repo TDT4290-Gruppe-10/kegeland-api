@@ -20,9 +20,7 @@ export class AuthController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('login')
   async login(@Body() loginCredentials: LoginCredentials): Promise<UserEntity> {
-    return this.authService
-      .login(loginCredentials)
-      .then((res) => new UserEntity(res._tokenResponse));
+    return this.authService.login(loginCredentials);
   }
 
   @UseInterceptors(ClassSerializerInterceptor)
@@ -30,16 +28,12 @@ export class AuthController {
   async register(
     @Body() registerCredentials: RegisterCredentials,
   ): Promise<UserEntity> {
-    return this.authService
-      .register(registerCredentials)
-      .then((res) => new UserEntity(res._tokenResponse));
+    return this.authService.register(registerCredentials);
   }
 
-  @UseInterceptors(ClassSerializerInterceptor)
+  //@UseInterceptors(ClassSerializerInterceptor)
   @Post('refresh')
   async refresh(@Body() refreshToken: RefreshToken): Promise<TokenCredentials> {
-    return this.authService
-      .refresh(refreshToken)
-      .then((res) => new TokenCredentials(res));
+    return this.authService.refresh(refreshToken);
   }
 }
