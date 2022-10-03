@@ -10,17 +10,19 @@ import firebaseConfig from 'src/config/firebase.config';
 import { ConfigType } from '@nestjs/config';
 import { FirebaseService } from 'src/firebase/firebase.service';
 import { plainToInstance } from 'class-transformer';
+import { sendPasswordResetEmail, getAuth as getSdkAuth } from 'firebase/auth';
 
 import { isAxiosError } from '../utils/isAxiosError';
 
-import { LoginCredentials } from './dto/login-credentials.dto';
-import { RegisterCredentials } from './dto/register-credentials.dto';
+import { LoginCredentialsDTO } from './dto/login-credentials.dto';
+import { RegisterCredentialsDTO } from './dto/register-credentials.dto';
 import { RefreshErrorResponse, RefreshResponse } from './auth.interface';
-import { RefreshToken } from './dto/refresh-token.dto';
+import { RefreshTokenDTO } from './dto/refresh-token.dto';
 import { TokenCredentials } from './entities/token-credentials.entity';
 import { signInUser } from './auth.helpers';
 import { UserDetailsEntity } from './entities/user-details.entity';
 import { UserEntity } from './entities/user.entity';
+import { ResetPasswordDTO } from './dto/reset-password.dto';
 
 @Injectable()
 export class AuthService {
@@ -31,7 +33,7 @@ export class AuthService {
     private readonly firebaseService: FirebaseService,
   ) {}
 
-  async login(loginCredentials: LoginCredentials) {
+  async login(loginCredentials: LoginCredentialsDTO) {
     const { email, password } = loginCredentials;
     const { id, tokens } = await signInUser(email, password);
     const details = await this.firebaseService.firestore
@@ -39,19 +41,18 @@ export class AuthService {
       .doc(id)
       .get()
       .then((res) => plainToInstance(UserDetailsEntity, res.data()));
-    return plainToInstance(UserEntity, { email, details, tokens });
+    return plainToInstance(UserEntity, { id, email, details, tokens });
   }
 
-  async register(registerCredentials: RegisterCredentials) {
+  async register(registerCredentials: RegisterCredentialsDTO) {
     const { email, password, ...details } = registerCredentials;
-    const auth = getAuth();
-    console.log(registerCredentials);
+
     // Create new user and set custom roles
     const userId = await this.firebaseService.firebaseAdmin
       .auth()
       .createUser({ email, password })
       .then((res) => {
-        auth.setCustomUserClaims(res.uid, { roles: details.roles });
+        getAuth().setCustomUserClaims(res.uid, { roles: details.roles });
         return res.uid;
       })
       .catch((err) => {
@@ -74,10 +75,14 @@ export class AuthService {
 
     // Sign in user and generate tokens
     const { tokens } = await signInUser(email, password);
-    return plainToInstance(UserEntity, { email, details, tokens });
+    return plainToInstance(UserEntity, { id: userId, email, details, tokens });
   }
 
-  async refresh({ refreshToken }: RefreshToken) {
+  async resetPassword({ email }: ResetPasswordDTO) {
+    return sendPasswordResetEmail(getSdkAuth(), email);
+  }
+
+  async refresh({ refreshToken }: RefreshTokenDTO) {
     return this.httpService.axiosRef
       .post<RefreshResponse>(
         `https://securetoken.googleapis.com/v1/token?key=${this.config.sdk.apiKey}`,
