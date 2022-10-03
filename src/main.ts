@@ -42,7 +42,7 @@ async function bootstrap() {
 
   SwaggerModule.setup('api/docs', app, document);
   const configService: ConfigService = app.get(ConfigService);
-
+  app.enableCors({ origin: '*' });
   await app.listen(configService.get<number>('SERVER_PORT') || 3000, '0.0.0.0');
 }
 bootstrap();
