@@ -4,8 +4,11 @@ import {
   Body,
   UseInterceptors,
   ClassSerializerInterceptor,
+  UseGuards,
 } from '@nestjs/common';
+import { FirebaseAuthGuard } from 'src/firebase/firebase-auth.guard';
 
+import { AuthUser } from './auth.decorator';
 import { AuthService } from './auth.service';
 import { LoginCredentialsDTO } from './dto/login-credentials.dto';
 import { RefreshTokenDTO } from './dto/refresh-token.dto';
@@ -24,6 +27,12 @@ export class AuthController {
     @Body() loginCredentials: LoginCredentialsDTO,
   ): Promise<UserEntity> {
     return this.authService.login(loginCredentials);
+  }
+
+  @Post('logout')
+  @UseGuards(FirebaseAuthGuard)
+  async logout(@AuthUser() userId: string) {
+    return this.authService.logout(userId);
   }
 
   @UseInterceptors(ClassSerializerInterceptor)

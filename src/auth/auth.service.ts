@@ -44,6 +44,12 @@ export class AuthService {
     return plainToInstance(UserEntity, { id, email, details, tokens });
   }
 
+  async logout(userId: string) {
+    return this.firebaseService.firebaseAdmin
+      .auth()
+      .revokeRefreshTokens(userId);
+  }
+
   async register(registerCredentials: RegisterCredentialsDTO) {
     const { email, password, ...details } = registerCredentials;
 
