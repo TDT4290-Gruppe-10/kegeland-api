@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { FirebaseModule } from './firebase/firebase.module';
 import { FirebaseAuthStrategy } from './firebase/firebase-auth.strategy';
 import firebaseConfig from './config/firebase.config';
+import { QuestionnairesModule } from './questionnaires/questionnaires.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -15,6 +16,7 @@ import firebaseConfig from './config/firebase.config';
     }),
     FirebaseModule,
     AuthModule,
+    QuestionnairesModule,
   ],
   controllers: [AppController],
   providers: [AppService, FirebaseAuthStrategy],
