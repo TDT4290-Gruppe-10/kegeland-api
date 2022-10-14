@@ -1,4 +1,6 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Param } from '@nestjs/common/decorators';
+import { IdParam } from 'types';
 
 import { QuestionnairesDTO } from './dto/questionnaires.dto';
 import { QuestionnairesService } from './questionnaires.service';
@@ -8,19 +10,18 @@ export class QuestionnairesController {
   constructor(private readonly questionnairesService: QuestionnairesService) {}
 
   @Get()
-  //@ApiBearerAuth('access-token')
-  //@UseGuards(FirebaseAuthGuard, RolesGuard)
-  //@Roles(Role.PATIENT)
-  getQuestion() {
+  getQuestion(@Param() params: IdParam) {
+    const { id } = params;
+    // add id to '()'
     return this.questionnairesService.getQuestion();
   }
 
   @Get(':id')
-  //@ApiBearerAuth('access-token')
-  //@UseGuards(FirebaseAuthGuard, RolesGuard)
-  //@Roles(Role.PHYSICIAN)
-  getQuestionnaires() {
-    return this.getQuestionnaires();
+  getQuestionnaires(@Param() params: IdParam) {
+    const { id } = params;
+    //todo make serializer of ID
+    //global tyoe for id param
+    return this.questionnairesService.getQuestionnaires(id);
   }
 
   @Post()
