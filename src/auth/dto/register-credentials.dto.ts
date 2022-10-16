@@ -1,4 +1,4 @@
-import { Expose, Type } from 'class-transformer';
+import { Type } from 'class-transformer';
 import { IsEnum, IsOptional, MinLength, ValidateNested } from 'class-validator';
 
 import { Role } from '../../roles/enums/role.enum';

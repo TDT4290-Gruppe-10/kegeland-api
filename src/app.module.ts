@@ -7,7 +7,6 @@ import { AuthModule } from './auth/auth.module';
 import { FirebaseModule } from './firebase/firebase.module';
 import { FirebaseAuthStrategy } from './firebase/firebase-auth.strategy';
 import firebaseConfig from './config/firebase.config';
-import { HttpModule } from '@nestjs/axios';
 import { SensorsModule } from './sensors/sensors.module';
 
 @Module({
@@ -18,7 +17,6 @@ import { SensorsModule } from './sensors/sensors.module';
     }),
     FirebaseModule,
     AuthModule,
-    HttpModule,
     SensorsModule
   ],
   controllers: [AppController],

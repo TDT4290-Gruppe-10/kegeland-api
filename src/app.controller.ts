@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
 
 import { AppService } from './app.service';
@@ -25,16 +25,5 @@ export class AppController {
   @Roles(Role.PHYSICIAN)
   getHalla() {
     return this.appService.getHalla();
-  }
-
-  @Post('add-session-data')
-  async addData(@Body() body: any) : Promise<boolean> {
-    return this.appService.addSensorData(body)
-  }
-
-  @Get("session-data/:uid")
-  async getSessionData(@Param("uid") uid) {
-    
-    return this.appService.getSensorData(uid)
   }
 }

@@ -1,26 +1,53 @@
-import { Injectable } from '@nestjs/common';
-import { CreateSensorDto } from './dto/create-sensor.dto';
-import { UpdateSensorDto } from './dto/update-sensor.dto';
+import { Injectable, Inject } from '@nestjs/common';
+import { CreateSessionDto } from './dto/create-sensor.dto';
+import { FirebaseService } from 'src/firebase/firebase.service';
+import firebaseConfig from 'src/config/firebase.config';
+import { ConfigType } from '@nestjs/config';
+import { HttpService } from '@nestjs/axios';
 
 @Injectable()
 export class SensorsService {
-  create(createSensorDto: CreateSensorDto) {
-    return 'This action adds a new sensor';
+  constructor(
+    @Inject(firebaseConfig.KEY)
+    private readonly config: ConfigType<typeof firebaseConfig>,
+    private readonly httpService: HttpService,
+    private readonly firebaseService: FirebaseService,
+    ) {}
+
+  async addSession(data: CreateSessionDto): Promise<boolean> {
+    const docRef = await this.firebaseService.firestore
+      .collection('sessions')
+      .add(data)
+      .catch((err) => console.log(err));
+    return !!docRef;
   }
 
-  findAll() {
-    return `This action returns all sensors`;
+  async getSessions(uid: string, sensorName: string) {
+    const snapshot = await this.firebaseService.firestore
+      .collection('sessions')
+      .where('user_id', '==', uid)
+      .where('sensor', '==', sensorName)
+      .get();
+    const sensor = await this.getSensor(sensorName)
+    let docs = snapshot.docs.map((doc) => ({id: doc.id, date: doc.createTime.toDate()}));
+    return {user_id: uid, data:docs, sensor};
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} sensor`;
+  async getSensor(sensorName: string) {
+    const snapshot = await this.firebaseService.firestore
+      .collection("sensors")
+      .where("name", "==", sensorName)
+      .get()
+      const docs = snapshot.docs.map((doc) => doc.data())
+      return docs
+      
   }
 
-  update(id: number, updateSensorDto: UpdateSensorDto) {
-    return `This action updates a #${id} sensor`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} sensor`;
+  async getSessionDataById(sessionId: string) {
+    const snapshot = await this.firebaseService.firestore
+      .collection("sessions")
+      .doc(sessionId)
+      .get()
+    return snapshot.data()
   }
 }
