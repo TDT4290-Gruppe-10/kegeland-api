@@ -11,6 +11,11 @@ export class SensorsController {
     return this.sensorsService.getSessions(uid, sensorName)
   }
 
+  @Get("sessions/:uid/")
+  async getAllUserSessions(@Param("uid") uid: string) {
+    return this.sensorsService.getAllUserSessions(uid)
+  }
+
   @Post('add-session')
   async addSession(@Body() body: CreateSessionDto) : Promise<boolean> {
     return this.sensorsService.addSession(body)
