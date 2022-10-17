@@ -21,7 +21,6 @@ export class FirebaseService implements OnModuleInit {
     });
     // Initialize firestore client
     this.firestore = admin.firestore(this.firebaseAdmin);
-
     // Initialize firebase client
     initializeApp(this.config.sdk);
   }
