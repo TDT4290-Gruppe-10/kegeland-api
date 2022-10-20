@@ -7,3 +7,4 @@ export class LoginCredentialsDTO {
   @IsNotEmpty()
   password: string;
 }
+

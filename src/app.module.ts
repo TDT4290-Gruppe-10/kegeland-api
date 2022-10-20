@@ -8,6 +8,8 @@ import { FirebaseModule } from './firebase/firebase.module';
 import { FirebaseAuthStrategy } from './firebase/firebase-auth.strategy';
 import firebaseConfig from './config/firebase.config';
 import { QuestionnairesModule } from './questionnaires/questionnaires.module';
+import { SensorsModule } from './sensors/sensors.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -17,6 +19,7 @@ import { QuestionnairesModule } from './questionnaires/questionnaires.module';
     FirebaseModule,
     AuthModule,
     QuestionnairesModule,
+    SensorsModule
   ],
   controllers: [AppController],
   providers: [AppService, FirebaseAuthStrategy],
