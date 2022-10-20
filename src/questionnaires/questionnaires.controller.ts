@@ -1,7 +1,11 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
-import { Param } from '@nestjs/common/decorators';
-import { IdParam } from 'types';
+import { Param, Query } from '@nestjs/common/decorators';
 
+import AnswersDTO from './dto/answers.dto';
+import AssignQuestionnaireDTO from './dto/assign-questionnaire.dto';
+import GetAssignedQuestionnaireDTO from './dto/get-assigned-questionnaire.dto';
+import ListAnswersDTO from './dto/list-answers.dto';
+import ListQuestionnairesDTO from './dto/list-questionnaires.dto';
 import { QuestionnairesDTO } from './dto/questionnaires.dto';
 import { QuestionnairesService } from './questionnaires.service';
 
@@ -9,23 +13,52 @@ import { QuestionnairesService } from './questionnaires.service';
 export class QuestionnairesController {
   constructor(private readonly questionnairesService: QuestionnairesService) {}
 
+  @Post('assignments')
+  assignQuestionnaire(@Body() data: AssignQuestionnaireDTO) {
+    return this.questionnairesService.assignQuestionnaire(data);
+  }
+
+  @Get('assignments/:userId')
+  getAssignedQuestionnaire(
+    @Param('userId') userId: string,
+    @Query() filters: GetAssignedQuestionnaireDTO,
+  ) {
+    return this.questionnairesService.getAssignedQuestionnaire(userId, filters);
+  }
+
   @Get()
-  getQuestion(@Param() params: IdParam) {
-    const { id } = params;
-    // add id to '()'
-    return this.questionnairesService.getQuestion();
+  listQuestionnaires(@Query() filters: ListQuestionnairesDTO) {
+    return this.questionnairesService.listQuestionnaires(filters);
   }
 
   @Get(':id')
-  getQuestionnaires(@Param() params: IdParam) {
-    const { id } = params;
-    //todo make serializer of ID
-    //global tyoe for id param
-    return this.questionnairesService.getQuestionnaires(id);
+  getQuestionnaire(@Param('id') id: string) {
+    return this.questionnairesService.getQuestionnaire(id);
   }
 
   @Post()
-  create(@Body() data: QuestionnairesDTO) {
+  createQuestionnaire(@Body() data: QuestionnairesDTO) {
     return this.questionnairesService.createQuestionnaire(data);
+  }
+
+  @Get(':questionaireId/answers')
+  listAnswers(
+    @Param('questionaireId') qid: string,
+    @Query() filters: ListAnswersDTO,
+  ) {
+    return this.questionnairesService.listAnswers(qid, filters);
+  }
+
+  @Get(':questionaireId/answers/:id')
+  getAnswer(@Param('questionaireId') qid: string, @Param('id') id: string) {
+    return this.questionnairesService.getAnswer(qid, id);
+  }
+
+  @Post(':questionaireId/answers')
+  createAnswers(
+    @Param('questionaireId') qid: string,
+    @Body() data: AnswersDTO,
+  ) {
+    return this.questionnairesService.createAnswer(qid, data);
   }
 }

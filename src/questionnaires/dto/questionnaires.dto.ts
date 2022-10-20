@@ -1,9 +1,16 @@
 import { Type } from 'class-transformer';
-import { IsString, ValidateNested } from 'class-validator';
+import {
+  ArrayMinSize,
+  IsArray,
+  IsEnum,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
+import { Sensor } from 'src/enums/sensor.enum';
 
 export class QuestionField {
   @IsString()
-  title: string;
+  question: string;
   @IsString()
   minVal: string;
   @IsString()
@@ -14,7 +21,12 @@ export class QuestionnairesDTO {
   @IsString()
   name: string;
 
-  @ValidateNested()
+  @IsEnum(Sensor, { each: true })
+  sensor: Sensor;
+
+  @IsArray()
+  @ValidateNested({ each: true })
+  @ArrayMinSize(1)
   @Type(() => QuestionField)
   questions: QuestionField[];
 }
