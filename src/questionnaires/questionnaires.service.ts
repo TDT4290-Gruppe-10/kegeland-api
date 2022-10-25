@@ -1,4 +1,5 @@
 import { NotFoundException, Injectable } from '@nestjs/common';
+import { firestore } from 'firebase-admin';
 import { map } from 'lodash';
 import { FirebaseService } from 'src/firebase/firebase.service';
 
@@ -105,9 +106,10 @@ export class QuestionnairesService {
       .doc(qid)
       .collection('answers')
       .add({
+        createdAt: firestore.Timestamp.now(),
         ...data,
       });
 
-    return { id: doc.id, ...data };
+    return { id: doc.id, createdAt: firestore.Timestamp.now(), ...data };
   }
 }
