@@ -82,6 +82,9 @@ export class QuestionnairesService {
     if ('userId' in filters) {
       query = query.where('userId', '==', filters.userId);
     }
+    if ('sessionId' in filters) {
+      query = query.where('sessionId', '==', filters.sessionId);
+    }
     const snapshots = await query.get();
     return map(snapshots.docs, (doc) => ({ id: doc.id, ...doc.data() }));
   }
