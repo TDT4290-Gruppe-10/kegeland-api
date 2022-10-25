@@ -1,5 +1,4 @@
 import { NotFoundException, Injectable } from '@nestjs/common';
-import { firestore } from 'firebase-admin';
 import { map } from 'lodash';
 import { FirebaseService } from 'src/firebase/firebase.service';
 
@@ -87,7 +86,7 @@ export class QuestionnairesService {
       query = query.where('sessionId', '==', filters.sessionId);
     }
     const snapshots = await query.get();
-    return map(snapshots.docs, (doc) => ({ id: doc.id, ...doc.data() }));
+    return snapshots.docs.map((doc) => ({id: doc.id, createdAt: doc.createTime.toDate(), ...doc.data()}))
   }
 
   async getAnswer(qid: string, id: string) {
@@ -106,10 +105,9 @@ export class QuestionnairesService {
       .doc(qid)
       .collection('answers')
       .add({
-        createdAt: firestore.Timestamp.now(),
         ...data,
       });
 
-    return { id: doc.id, createdAt: firestore.Timestamp.now(), ...data };
+    return { id: doc.id, ...data };
   }
 }
