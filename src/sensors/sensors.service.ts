@@ -50,4 +50,13 @@ export class SensorsService {
       .get()
     return snapshot.data()
   }
+
+  async getAllUserSessions(uid: string) {
+    const snapshot = await this.firebaseService.firestore
+      .collection('sessions')
+      .where('user_id', '==', uid)
+      .get();
+    let docs = snapshot.docs.map((doc) => ({id: doc.id, date: doc.createTime.toDate(), sensor: doc.data().sensor}));
+    return {user_id: uid, data: docs};
+  }
 }
