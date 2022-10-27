@@ -36,6 +36,7 @@
     "class-validator": "^0.13.2",
     "firebase": "^9.10.0",
     "firebase-admin": "^11.0.1",
+    "loadash": "^1.0.0",
     "lodash": "^4.17.21",
     "nest-cli": "^0.0.5",
     "passport": "^0.6.0",
