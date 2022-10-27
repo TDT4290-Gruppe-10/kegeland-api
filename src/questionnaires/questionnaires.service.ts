@@ -2,18 +2,20 @@ import { NotFoundException, Injectable } from '@nestjs/common';
 import { map } from 'lodash';
 import { FirebaseService } from 'src/firebase/firebase.service';
 
-import AnswersDTO from './dto/answers.dto';
-import AssignQuestionnaireDTO from './dto/assign-questionnaire.dto';
-import GetAssignedQuestionnaireDTO from './dto/get-assigned-questionnaire.dto';
-import ListAnswersDTO from './dto/list-answers.dto';
-import ListQuestionnairesDTO from './dto/list-questionnaires.dto';
-import { QuestionnairesDTO } from './dto/questionnaires.dto';
+import { AssignQuestionnaireDto } from './dto/assign-questionnaire.dto';
+import { CreateAnswerDto } from './dto/create-answer.dto';
+import { CreateQuestionnaireDto } from './dto/create-questionnaire.dto';
+import { FindAnswersDto } from './dto/find-answers.dto';
+import { FindQuestionnairesDto } from './dto/find-questionnaires.dto';
+import { GetAssignedQuestionnaireDto } from './dto/get-assigned-questionnaire.dto';
+import { UpdateAnswerDto } from './dto/update-answer.dto';
+import { UpdateQuestionnaireDto } from './dto/update-questionnaire.dto';
 
 @Injectable()
 export class QuestionnairesService {
   constructor(private readonly firebaseService: FirebaseService) {}
 
-  async assignQuestionnaire(data: AssignQuestionnaireDTO) {
+  async assignQuestionnaire(data: AssignQuestionnaireDto) {
     const { userId, sensor, questionnaireId } = data;
     await this.firebaseService.firestore
       .collection('userDetails')
@@ -28,7 +30,7 @@ export class QuestionnairesService {
 
   async getAssignedQuestionnaire(
     userId: string,
-    filters: GetAssignedQuestionnaireDTO,
+    filters: GetAssignedQuestionnaireDto,
   ) {
     const { sensor } = filters;
     const ref = await this.firebaseService.firestore
@@ -49,7 +51,7 @@ export class QuestionnairesService {
     }
   }
 
-  async listQuestionnaires(filters: ListQuestionnairesDTO) {
+  async findAllQuestionnaires(filters: FindQuestionnairesDto) {
     let query: any = this.firebaseService.firestore.collection('questions');
     if ('sensor' in filters) {
       query = query.where('sensor', '==', filters.sensor);
@@ -58,7 +60,7 @@ export class QuestionnairesService {
     return map(snapshots.docs, (doc) => ({ id: doc.id, ...doc.data() }));
   }
 
-  async getQuestionnaire(id: string) {
+  async findOneQuestionnaire(id: string) {
     const snapshot = await this.firebaseService.firestore
       .collection('questions')
       .doc(id)
@@ -66,7 +68,7 @@ export class QuestionnairesService {
     return { id: snapshot.id, ...snapshot.data() };
   }
 
-  async createQuestionnaire(data: QuestionnairesDTO) {
+  async createQuestionnaire(data: CreateQuestionnaireDto) {
     const doc = await this.firebaseService.firestore
       .collection('questions')
       .add(data);
@@ -74,7 +76,22 @@ export class QuestionnairesService {
     return { id: doc.id, ...data };
   }
 
-  async listAnswers(qid: string, filters: ListAnswersDTO) {
+  async updateQuestionnaire(id: string, data: UpdateQuestionnaireDto) {
+    await this.firebaseService.firestore
+      .collection('questions')
+      .doc(id)
+      .set(data);
+    return { id, ...data };
+  }
+
+  async deleteQuestionnaire(id: string) {
+    await this.firebaseService.firestore
+      .collection('questions')
+      .doc(id)
+      .delete();
+  }
+
+  async findAllAnswers(qid: string, filters: FindAnswersDto) {
     let query: any = this.firebaseService.firestore
       .collection('questions')
       .doc(qid)
@@ -103,7 +120,7 @@ export class QuestionnairesService {
     return { id: snapshot.id, ...snapshot.data() };
   }
 
-  async createAnswer(qid: string, data: AnswersDTO) {
+  async createAnswer(qid: string, data: CreateAnswerDto) {
     const doc = await this.firebaseService.firestore
       .collection('questions')
       .doc(qid)
@@ -113,5 +130,24 @@ export class QuestionnairesService {
       });
 
     return { id: doc.id, ...data };
+  }
+
+  async updateAnswer(qid: string, id: string, data: UpdateAnswerDto) {
+    await this.firebaseService.firestore
+      .collection('questions')
+      .doc(qid)
+      .collection('answers')
+      .doc(id)
+      .set(data);
+    return { id, ...data };
+  }
+
+  async deleteAnswer(qid: string, id: string) {
+    await this.firebaseService.firestore
+      .collection('questions')
+      .doc(qid)
+      .collection('answers')
+      .doc(id)
+      .delete();
   }
 }

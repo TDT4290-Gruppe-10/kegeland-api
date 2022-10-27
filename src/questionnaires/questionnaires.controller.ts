@@ -1,12 +1,14 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
-import { Param, Query } from '@nestjs/common/decorators';
+import { Delete, Param, Put, Query } from '@nestjs/common/decorators';
 
-import AnswersDTO from './dto/answers.dto';
-import AssignQuestionnaireDTO from './dto/assign-questionnaire.dto';
-import GetAssignedQuestionnaireDTO from './dto/get-assigned-questionnaire.dto';
-import ListAnswersDTO from './dto/list-answers.dto';
-import ListQuestionnairesDTO from './dto/list-questionnaires.dto';
-import { QuestionnairesDTO } from './dto/questionnaires.dto';
+import { AssignQuestionnaireDto } from './dto/assign-questionnaire.dto';
+import { CreateAnswerDto } from './dto/create-answer.dto';
+import { CreateQuestionnaireDto } from './dto/create-questionnaire.dto';
+import { FindAnswersDto } from './dto/find-answers.dto';
+import { FindQuestionnairesDto } from './dto/find-questionnaires.dto';
+import { GetAssignedQuestionnaireDto } from './dto/get-assigned-questionnaire.dto';
+import { UpdateAnswerDto } from './dto/update-answer.dto';
+import { UpdateQuestionnaireDto } from './dto/update-questionnaire.dto';
 import { QuestionnairesService } from './questionnaires.service';
 
 @Controller('questionnaires')
@@ -14,51 +16,75 @@ export class QuestionnairesController {
   constructor(private readonly questionnairesService: QuestionnairesService) {}
 
   @Post('assignments')
-  assignQuestionnaire(@Body() data: AssignQuestionnaireDTO) {
+  assignQuestionnaire(@Body() data: AssignQuestionnaireDto) {
     return this.questionnairesService.assignQuestionnaire(data);
   }
 
   @Get('assignments/:userId')
   getAssignedQuestionnaire(
     @Param('userId') userId: string,
-    @Query() filters: GetAssignedQuestionnaireDTO,
+    @Query() filters: GetAssignedQuestionnaireDto,
   ) {
     return this.questionnairesService.getAssignedQuestionnaire(userId, filters);
   }
 
   @Get()
-  listQuestionnaires(@Query() filters: ListQuestionnairesDTO) {
-    return this.questionnairesService.listQuestionnaires(filters);
+  findAllQuestionnaires(@Query() filters: FindQuestionnairesDto) {
+    return this.questionnairesService.findAllQuestionnaires(filters);
   }
 
   @Get(':id')
-  getQuestionnaire(@Param('id') id: string) {
-    return this.questionnairesService.getQuestionnaire(id);
+  findOneQuestionnaire(@Param('id') id: string) {
+    return this.questionnairesService.findOneQuestionnaire(id);
   }
 
   @Post()
-  createQuestionnaire(@Body() data: QuestionnairesDTO) {
+  createQuestionnaire(@Body() data: CreateQuestionnaireDto) {
     return this.questionnairesService.createQuestionnaire(data);
   }
 
+  @Put(':id')
+  updateQuestionnaire(@Param('id') id: string, data: UpdateQuestionnaireDto) {
+    return this.questionnairesService.updateQuestionnaire(id, data);
+  }
+
+  @Delete(':id')
+  deleteQuestionnaire(@Param('id') id: string) {
+    return this.questionnairesService.deleteQuestionnaire(id);
+  }
+
   @Get(':questionaireId/answers')
-  listAnswers(
+  findAllAnswers(
     @Param('questionaireId') qid: string,
-    @Query() filters: ListAnswersDTO,
+    @Query() filters: FindAnswersDto,
   ) {
-    return this.questionnairesService.listAnswers(qid, filters);
+    return this.questionnairesService.findAllAnswers(qid, filters);
   }
 
   @Get(':questionaireId/answers/:id')
-  getAnswer(@Param('questionaireId') qid: string, @Param('id') id: string) {
+  findOneAnswer(@Param('questionaireId') qid: string, @Param('id') id: string) {
     return this.questionnairesService.getAnswer(qid, id);
   }
 
   @Post(':questionaireId/answers')
-  createAnswers(
+  createAnswer(
     @Param('questionaireId') qid: string,
-    @Body() data: AnswersDTO,
+    @Body() data: CreateAnswerDto,
   ) {
     return this.questionnairesService.createAnswer(qid, data);
+  }
+
+  @Put(':questionaireId/answers/:id')
+  updateAnswer(
+    @Param('questionaireId') qid: string,
+    @Param('id') id: string,
+    data: UpdateAnswerDto,
+  ) {
+    return this.questionnairesService.updateAnswer(qid, id, data);
+  }
+
+  @Delete(':questionaireId/answers/:id')
+  deleteAnswer(@Param('questionaireId') qid: string, @Param('id') id: string) {
+    return this.questionnairesService.deleteAnswer(qid, id);
   }
 }
