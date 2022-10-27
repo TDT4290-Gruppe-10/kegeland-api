@@ -12,7 +12,6 @@ import {
 import { SensorsService } from './sensors.service';
 import { CreateSensorDto } from './dto/create-sensor.dto';
 import { UpdateSensorDto } from './dto/update-sensor.dto';
-import ListSessionsDto from './dto/list-sessions.dto';
 
 @Controller('sensors')
 export class SensorsController {
@@ -24,8 +23,8 @@ export class SensorsController {
   }
 
   @Get()
-  async findAll(@Query() filters: ListSessionsDto) {
-    return this.sensorsService.findAll(filters);
+  async findAll() {
+    return this.sensorsService.findAll();
   }
 
   @Put(':id')

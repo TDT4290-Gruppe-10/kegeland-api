@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { FirebaseService } from 'src/firebase/firebase.service';
-import { first, map } from 'lodash';
+import { map } from 'lodash';
 
 import { CreateSensorDto } from './dto/create-sensor.dto';
 import { UpdateSensorDto } from './dto/update-sensor.dto';
-import ListSessionsDto from './dto/list-sessions.dto';
 
 @Injectable()
 export class SensorsService {
@@ -18,12 +17,10 @@ export class SensorsService {
     return { id: snapshot.id, ...snapshot.data() };
   }
 
-  async findAll(filters: ListSessionsDto) {
-    let query: any = this.firebaseService.firestore.collection('sensors');
-    if ('sensor' in filters) {
-      query = query.where('sensor', '==', filters.sensor);
-    }
-    const snapshots = await query.get();
+  async findAll() {
+    const snapshots = await this.firebaseService.firestore
+      .collection('sensors')
+      .get();
     return map(snapshots.docs, (doc) => ({ id: doc.id, ...doc.data() }));
   }
 
