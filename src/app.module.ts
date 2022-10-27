@@ -21,7 +21,7 @@ import { SensorsModule } from './sensors/sensors.module';
     AuthModule,
     QuestionnairesModule,
     SensorsModule,
-    UsersModule
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService, FirebaseAuthStrategy],

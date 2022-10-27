@@ -1,17 +1,16 @@
-import { IsObject,IsString } from 'class-validator';
-
+import { IsObject, IsString } from 'class-validator';
 
 class SessionDataRow {
-  [key: string]: number[]
+  [key: string]: number[];
 }
 
 export class CreateSessionDto {
   @IsString()
-  sensor:string
+  sensor: string;
 
   @IsString()
-  user_id: string
+  user_id: string;
 
   @IsObject()
-  dataPoints: SessionDataRow; 
+  dataPoints: SessionDataRow;
 }

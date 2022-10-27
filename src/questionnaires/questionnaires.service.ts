@@ -86,7 +86,11 @@ export class QuestionnairesService {
       query = query.where('sessionId', '==', filters.sessionId);
     }
     const snapshots = await query.get();
-    return snapshots.docs.map((doc) => ({id: doc.id, createdAt: doc.createTime.toDate(), ...doc.data()}))
+    return snapshots.docs.map((doc) => ({
+      id: doc.id,
+      createdAt: doc.createTime.toDate(),
+      ...doc.data(),
+    }));
   }
 
   async getAnswer(qid: string, id: string) {
