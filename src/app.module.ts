@@ -10,6 +10,7 @@ import { UsersModule } from './users/users.module';
 import firebaseConfig from './config/firebase.config';
 import { QuestionnairesModule } from './questionnaires/questionnaires.module';
 import { SensorsModule } from './sensors/sensors.module';
+import { SessionsModule } from './sessions/sessions.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { SensorsModule } from './sensors/sensors.module';
     AuthModule,
     QuestionnairesModule,
     SensorsModule,
+    SessionsModule,
     UsersModule,
   ],
   controllers: [AppController],
