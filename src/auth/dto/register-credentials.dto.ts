@@ -4,9 +4,9 @@ import { IsEnum, IsOptional, MinLength, ValidateNested } from 'class-validator';
 import { Role } from '../../roles/enums/role.enum';
 import { FullName } from '../entities/user-details.entity';
 
-import { LoginCredentialsDTO } from './login-credentials.dto';
+import { LoginCredentialsDto } from './login-credentials.dto';
 
-export class RegisterCredentialsDTO extends LoginCredentialsDTO {
+export class RegisterCredentialsDto extends LoginCredentialsDto {
   @MinLength(6)
   password: string;
 

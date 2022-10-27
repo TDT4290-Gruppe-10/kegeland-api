@@ -1,6 +1,6 @@
 import { IsEmail } from 'class-validator';
 
-export class ResetPasswordDTO {
+export class ResetPasswordDto {
   @IsEmail()
   email: string;
 }

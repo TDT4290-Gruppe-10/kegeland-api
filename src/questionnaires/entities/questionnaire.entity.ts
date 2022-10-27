@@ -17,7 +17,7 @@ export class QuestionField {
   maxVal: string;
 }
 
-export class QuestionnairesDTO {
+export class Questionnaire {
   @IsString()
   name: string;
 

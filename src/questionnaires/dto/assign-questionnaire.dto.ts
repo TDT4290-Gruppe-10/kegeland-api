@@ -1,7 +1,7 @@
 import { IsEnum, IsString } from 'class-validator';
 import { Sensor } from 'src/enums/sensor.enum';
 
-export default class AssignQuestionnaireDTO {
+export class AssignQuestionnaireDto {
   @IsString()
   userId: string;
 
