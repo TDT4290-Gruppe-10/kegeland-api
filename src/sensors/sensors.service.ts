@@ -1,69 +1,49 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { FirebaseService } from 'src/firebase/firebase.service';
-import firebaseConfig from 'src/config/firebase.config';
-import { ConfigType } from '@nestjs/config';
-import { HttpService } from '@nestjs/axios';
+import { first, map } from 'lodash';
 
-import { CreateSessionDto } from './dto/create-sensor.dto';
+import { CreateSensorDto } from './dto/create-sensor.dto';
+import { UpdateSensorDto } from './dto/update-sensor.dto';
+import ListSessionsDto from './dto/list-sessions.dto';
 
 @Injectable()
 export class SensorsService {
-  constructor(
-    @Inject(firebaseConfig.KEY)
-    private readonly config: ConfigType<typeof firebaseConfig>,
-    private readonly httpService: HttpService,
-    private readonly firebaseService: FirebaseService,
-  ) {}
+  constructor(private readonly firebaseService: FirebaseService) {}
 
-  async addSession(data: CreateSessionDto): Promise<boolean> {
-    const docRef = await this.firebaseService.firestore
-      .collection('sessions')
-      .add(data)
-      .catch((err) => console.log(err));
-    return !!docRef;
-  }
-
-  async getSessions(uid: string, sensorName: string) {
-    const snapshot = await this.firebaseService.firestore
-      .collection('sessions')
-      .where('user_id', '==', uid)
-      .where('sensor', '==', sensorName)
-      .get();
-    const sensor = await this.getSensor(sensorName);
-    const docs = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      date: doc.createTime.toDate(),
-    }));
-    return { user_id: uid, data: docs, sensor };
-  }
-
-  async getSensor(sensorName: string) {
+  async findOne(id: string) {
     const snapshot = await this.firebaseService.firestore
       .collection('sensors')
-      .where('name', '==', sensorName)
+      .doc(id)
       .get();
-    const docs = snapshot.docs.map((doc) => doc.data());
-    return docs;
+    return { id: snapshot.id, ...snapshot.data() };
   }
 
-  async getSessionDataById(sessionId: string) {
-    const snapshot = await this.firebaseService.firestore
-      .collection('sessions')
-      .doc(sessionId)
-      .get();
-    return snapshot.data();
+  async findAll(filters: ListSessionsDto) {
+    let query: any = this.firebaseService.firestore.collection('sensors');
+    if ('sensor' in filters) {
+      query = query.where('sensor', '==', filters.sensor);
+    }
+    const snapshots = await query.get();
+    return map(snapshots.docs, (doc) => ({ id: doc.id, ...doc.data() }));
   }
 
-  async getAllUserSessions(uid: string) {
-    const snapshot = await this.firebaseService.firestore
-      .collection('sessions')
-      .where('user_id', '==', uid)
-      .get();
-    const docs = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      date: doc.createTime.toDate(),
-      sensor: doc.data().sensor,
-    }));
-    return { user_id: uid, data: docs };
+  async create(data: CreateSensorDto) {
+    await this.firebaseService.firestore
+      .collection('sensors')
+      .doc(data.name)
+      .set(data);
+    return { id: data.name, ...data };
+  }
+
+  async update(id: string, data: UpdateSensorDto) {
+    await this.firebaseService.firestore
+      .collection('sensors')
+      .doc(id)
+      .set(data);
+    return { id, ...data };
+  }
+
+  async delete(id: string) {
+    await this.firebaseService.firestore.collection('sensors').doc(id).delete();
   }
 }
