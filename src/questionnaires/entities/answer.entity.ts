@@ -1,6 +1,6 @@
 import { ArrayMinSize, IsArray, IsString } from 'class-validator';
 
-export default class AnswersDTO {
+export default class Answer {
   @IsString()
   userId: string;
   @IsString()

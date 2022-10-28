@@ -1,7 +1,7 @@
 import { IsEnum, IsOptional } from 'class-validator';
 import { Sensor } from 'src/enums/sensor.enum';
 
-export default class ListQuestionnairesDTO {
+export class FindQuestionnairesDto {
   @IsOptional()
   @IsEnum(Sensor, { each: true })
   sensor?: Sensor;

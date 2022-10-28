@@ -3,6 +3,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import firebaseConfig from 'src/config/firebase.config';
 import { FirebaseService } from 'src/firebase/firebase.service';
+
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
@@ -17,20 +18,21 @@ export class UsersService {
 
   async getAllPatients() {
     const snapshot = await this.firebaseService.firestore
-      .collection("userDetails")
-      .where("roles", "array-contains", "patient")
-      .get()
-    const docs = snapshot.docs.map((doc) => ({id: doc.id, ...doc.data().name}))
-    return docs
+      .collection('userDetails')
+      .where('roles', 'array-contains', 'patient')
+      .get();
+    const docs = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data().name,
+    }));
+    return docs;
   }
 
   async getPatient(id: string) {
     const snapshot = await this.firebaseService.firestore
-      .collection("userDetails")
+      .collection('userDetails')
       .doc(id)
-      .get()
-    return snapshot.data()
+      .get();
+    return snapshot.data();
   }
 }
-
-

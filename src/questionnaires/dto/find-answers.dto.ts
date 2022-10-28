@@ -1,6 +1,6 @@
 import { IsOptional, IsString } from 'class-validator';
 
-export default class ListAnswersDTO {
+export class FindAnswersDto {
   @IsOptional()
   @IsString()
   userId?: string;

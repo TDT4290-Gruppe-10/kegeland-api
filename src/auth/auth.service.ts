@@ -14,15 +14,15 @@ import { sendPasswordResetEmail, getAuth as getSdkAuth } from 'firebase/auth';
 
 import { isAxiosError } from '../utils/isAxiosError';
 
-import { LoginCredentialsDTO } from './dto/login-credentials.dto';
-import { RegisterCredentialsDTO } from './dto/register-credentials.dto';
+import { LoginCredentialsDto } from './dto/login-credentials.dto';
+import { RegisterCredentialsDto } from './dto/register-credentials.dto';
 import { RefreshErrorResponse, RefreshResponse } from './auth.interface';
-import { RefreshTokenDTO } from './dto/refresh-token.dto';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { TokenCredentials } from './entities/token-credentials.entity';
 import { signInUser } from './auth.helpers';
 import { UserDetailsEntity } from './entities/user-details.entity';
 import { UserEntity } from './entities/user.entity';
-import { ResetPasswordDTO } from './dto/reset-password.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 
 @Injectable()
 export class AuthService {
@@ -33,7 +33,7 @@ export class AuthService {
     private readonly firebaseService: FirebaseService,
   ) {}
 
-  async login(loginCredentials: LoginCredentialsDTO) {
+  async login(loginCredentials: LoginCredentialsDto) {
     const { email, password } = loginCredentials;
     const { id, tokens } = await signInUser(email, password);
     const details = await this.firebaseService.firestore
@@ -50,7 +50,7 @@ export class AuthService {
       .revokeRefreshTokens(userId);
   }
 
-  async register(registerCredentials: RegisterCredentialsDTO) {
+  async register(registerCredentials: RegisterCredentialsDto) {
     const { email, password, ...details } = registerCredentials;
 
     // Create new user and set custom roles
@@ -84,11 +84,11 @@ export class AuthService {
     return plainToInstance(UserEntity, { id: userId, email, details, tokens });
   }
 
-  async resetPassword({ email }: ResetPasswordDTO) {
+  async resetPassword({ email }: ResetPasswordDto) {
     return sendPasswordResetEmail(getSdkAuth(), email);
   }
 
-  async refresh({ refreshToken }: RefreshTokenDTO) {
+  async refresh({ refreshToken }: RefreshTokenDto) {
     return this.httpService.axiosRef
       .post<RefreshResponse>(
         `https://securetoken.googleapis.com/v1/token?key=${this.config.sdk.apiKey}`,

@@ -1,7 +1,7 @@
 import { IsEnum } from 'class-validator';
 import { Sensor } from 'src/enums/sensor.enum';
 
-export default class GetAssignedQuestionnaireDTO {
+export class GetAssignedQuestionnaireDto {
   @IsEnum(Sensor, { each: true })
   sensor: Sensor;
 }

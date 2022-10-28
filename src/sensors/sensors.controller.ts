@@ -1,29 +1,47 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Body,
+  Param,
+  Query,
+} from '@nestjs/common';
+
 import { SensorsService } from './sensors.service';
-import { CreateSessionDto } from './dto/create-sensor.dto';
+import { CreateSensorDto } from './dto/create-sensor.dto';
+import { UpdateSensorDto } from './dto/update-sensor.dto';
 
 @Controller('sensors')
 export class SensorsController {
   constructor(private readonly sensorsService: SensorsService) {}
 
-  @Get("sessions/:uid/:sensorName")
-  async getSessionData(@Param("uid") uid: string, @Param("sensorName") sensorName: string) {
-    return this.sensorsService.getSessions(uid, sensorName)
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    return this.sensorsService.findOne(id);
   }
 
-  @Get("sessions/:uid/")
-  async getAllUserSessions(@Param("uid") uid: string) {
-    return this.sensorsService.getAllUserSessions(uid)
+  @Get()
+  async findAll() {
+    return this.sensorsService.findAll();
   }
 
-  @Post('add-session')
-  async addSession(@Body() body: CreateSessionDto) : Promise<boolean> {
-    return this.sensorsService.addSession(body)
+  @Put(':id')
+  async update(
+    @Param('id') id: string,
+    @Body() updateSensorDto: UpdateSensorDto,
+  ) {
+    return this.sensorsService.update(id, updateSensorDto);
   }
 
-  @Get("session/:sessionId") 
-  async getSessionDataById (@Param("sessionId") sessionId: string) {
-    return this.sensorsService.getSessionDataById(sessionId)
+  @Post()
+  async create(@Body() createSensorDto: CreateSensorDto) {
+    return this.sensorsService.create(createSensorDto);
   }
 
+  @Delete(':id')
+  async delete(@Param('id') id: string) {
+    return this.sensorsService.delete(id);
+  }
 }

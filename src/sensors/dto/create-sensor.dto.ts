@@ -1,17 +1,3 @@
-import { IsObject,IsString } from 'class-validator';
+import { Sensor } from '../entities/sensor.entity';
 
-
-class SessionDataRow {
-  [key: string]: number[]
-}
-
-export class CreateSessionDto {
-  @IsString()
-  sensor:string
-
-  @IsString()
-  user_id: string
-
-  @IsObject()
-  dataPoints: SessionDataRow; 
-}
+export class CreateSensorDto extends Sensor {}
