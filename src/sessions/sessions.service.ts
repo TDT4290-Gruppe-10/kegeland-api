@@ -23,6 +23,9 @@ export class SessionsService {
     if ('sensor' in filters) {
       query = query.where('sensor', '==', filters.sensor);
     }
+    if ('userId' in filters) {
+      query = query.where('userId', '==', filters.userId);
+    }
     const snapshots = await query.get();
     return map(snapshots.docs, (doc) => ({ id: doc.id, ...doc.data() }));
   }
