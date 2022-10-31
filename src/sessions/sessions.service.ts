@@ -27,7 +27,7 @@ export class SessionsService {
       query = query.where('userId', '==', filters.userId);
     }
     const snapshots = await query.get();
-    return map(snapshots.docs, (doc) => ({ id: doc.id, ...doc.data() }));
+    return map(snapshots.docs, (doc) => ({ id: doc.id, ...doc.data(), date: doc.createTime.toDate()}));
   }
 
   async create(data: CreateSessionDto) {
