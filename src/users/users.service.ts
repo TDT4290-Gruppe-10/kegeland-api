@@ -4,9 +4,6 @@ import { ConfigType } from '@nestjs/config';
 import firebaseConfig from 'src/config/firebase.config';
 import { FirebaseService } from 'src/firebase/firebase.service';
 
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-
 @Injectable()
 export class UsersService {
   constructor(
@@ -34,5 +31,20 @@ export class UsersService {
       .doc(id)
       .get();
     return snapshot.data();
+  }
+
+  async getPatientOverview(uid: string) {
+    const sessions = await this.firebaseService.firestore
+      .collection('sessions')
+      .where('userId', '==', uid)
+      .get();
+    const sessionsArr = sessions.docs.map((doc) => doc.createTime.toDate())
+    const userInfo = await this.firebaseService.firestore
+      .collection('userDetails')
+      .doc(uid)
+      .get();
+    const {firstName, lastName} = userInfo.data().name
+
+    return {name: firstName + " " + lastName, sessionDates: sessionsArr};
   }
 }
