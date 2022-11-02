@@ -71,7 +71,7 @@ export class AuthService {
     await this.firebaseService.firestore
       .collection('userDetails')
       .doc(userId)
-      .set(details)
+      .set({ ...details, email })
       .catch((err) => {
         if (err instanceof Error) {
           throw new InternalServerErrorException(err.message);

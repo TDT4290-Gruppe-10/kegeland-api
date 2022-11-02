@@ -105,7 +105,7 @@ export class QuestionnairesService {
     const snapshots = await query.get();
     return snapshots.docs.map((doc) => ({
       id: doc.id,
-      createdAt: doc.createTime.toDate(),
+      createdAt: doc.createTime.seconds,
       ...doc.data(),
     }));
   }

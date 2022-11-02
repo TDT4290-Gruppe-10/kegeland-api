@@ -19,6 +19,10 @@ export class UserDetailsEntity {
   name: FullName;
 
   @Expose()
+  @IsString()
+  email: string;
+
+  @Expose()
   @IsEnum(Role, { each: true })
   readonly roles: Role[];
 

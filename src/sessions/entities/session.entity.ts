@@ -1,6 +1,9 @@
-import { IsObject, IsString } from 'class-validator';
+import { IsNumber, IsObject, IsString } from 'class-validator';
 
 export class Session {
+  @IsString()
+  id: string;
+
   @IsString()
   sensor: string;
 
@@ -9,4 +12,7 @@ export class Session {
 
   @IsObject()
   data: Record<string, number[]>;
+
+  @IsNumber()
+  createdAt: number;
 }
