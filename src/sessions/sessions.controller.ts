@@ -7,17 +7,19 @@ import {
   Body,
   Param,
   Query,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
-import { SessionsService } from './sessions.service';
-import { CreateSessionDto } from './dto/create-session.dto';
-import { UpdateSessionDto } from './dto/update-session.dto';
-import { ListSessionsDto } from './dto/list-sessions.dto';
+
 import { FirebaseAuthGuard } from '../firebase/firebase-auth.guard';
 import { Role } from '../roles/enums/role.enum';
 import { Roles } from '../roles/roles.decorator';
 import { RolesGuard } from '../roles/roles.guard';
+
+import { SessionsService } from './sessions.service';
+import { CreateSessionDto } from './dto/create-session.dto';
+import { UpdateSessionDto } from './dto/update-session.dto';
+import { ListSessionsDto } from './dto/list-sessions.dto';
 
 @Controller('sessions')
 @ApiBearerAuth('access-token')
