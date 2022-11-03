@@ -1,6 +1,10 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards} from '@nestjs/common';
 import { Delete, Param, Put, Query } from '@nestjs/common/decorators';
-
+import { ApiBearerAuth } from '@nestjs/swagger';
+import { FirebaseAuthGuard } from '../firebase/firebase-auth.guard';
+import { Role } from '../roles/enums/role.enum';
+import { Roles } from '../roles/roles.decorator';
+import { RolesGuard } from '../roles/roles.guard';
 import { AssignQuestionnaireDto } from './dto/assign-questionnaire.dto';
 import { CreateAnswerDto } from './dto/create-answer.dto';
 import { CreateQuestionnaireDto } from './dto/create-questionnaire.dto';
@@ -12,6 +16,9 @@ import { UpdateQuestionnaireDto } from './dto/update-questionnaire.dto';
 import { QuestionnairesService } from './questionnaires.service';
 
 @Controller('questionnaires')
+@ApiBearerAuth('access-token')
+@UseGuards(FirebaseAuthGuard, RolesGuard)
+@Roles(Role.PATIENT, Role.PHYSICIAN)
 export class QuestionnairesController {
   constructor(private readonly questionnairesService: QuestionnairesService) {}
 

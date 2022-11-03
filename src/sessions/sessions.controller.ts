@@ -7,28 +7,38 @@ import {
   Body,
   Param,
   Query,
+  UseGuards
 } from '@nestjs/common';
-
+import { ApiBearerAuth } from '@nestjs/swagger';
 import { SessionsService } from './sessions.service';
 import { CreateSessionDto } from './dto/create-session.dto';
 import { UpdateSessionDto } from './dto/update-session.dto';
 import { ListSessionsDto } from './dto/list-sessions.dto';
+import { FirebaseAuthGuard } from '../firebase/firebase-auth.guard';
+import { Role } from '../roles/enums/role.enum';
+import { Roles } from '../roles/roles.decorator';
+import { RolesGuard } from '../roles/roles.guard';
 
 @Controller('sessions')
+@ApiBearerAuth('access-token')
+@UseGuards(FirebaseAuthGuard, RolesGuard)
 export class SessionsController {
   constructor(private readonly sessionsService: SessionsService) {}
 
   @Get(':id')
+  @Roles(Role.PATIENT, Role.PHYSICIAN)
   async findOne(@Param('id') id: string) {
     return this.sessionsService.findOne(id);
   }
 
   @Get()
+  @Roles(Role.PHYSICIAN)
   async findAll(@Query() filters: ListSessionsDto) {
     return this.sessionsService.findAll(filters);
   }
 
   @Put(':id')
+  @Roles(Role.PATIENT)
   async update(
     @Param('id') id: string,
     @Body() updateSessionDto: UpdateSessionDto,
@@ -37,11 +47,13 @@ export class SessionsController {
   }
 
   @Post()
+  @Roles(Role.PATIENT)
   async create(@Body() createSessionDto: CreateSessionDto) {
     return this.sessionsService.create(createSessionDto);
   }
 
   @Delete(':id')
+  @Roles(Role.PATIENT, Role.PHYSICIAN)
   async delete(@Param('id') id: string) {
     return this.sessionsService.delete(id);
   }
