@@ -6,13 +6,23 @@ import {
   Delete,
   Body,
   Param,
+  UseGuards,
 } from '@nestjs/common';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
-import { SensorsService } from './sensors.service';
-import { CreateSensorDto } from './dto/create-sensor.dto';
+import { Role } from '../roles/enums/role.enum';
+import { Roles } from '../roles/roles.decorator';
+import { RolesGuard } from '../roles/roles.guard';
+import { FirebaseAuthGuard } from '../firebase/firebase-auth.guard';
+
 import { UpdateSensorDto } from './dto/update-sensor.dto';
+import { CreateSensorDto } from './dto/create-sensor.dto';
+import { SensorsService } from './sensors.service';
 
 @Controller('sensors')
+@ApiBearerAuth('access-token')
+@UseGuards(FirebaseAuthGuard, RolesGuard)
+@Roles(Role.PATIENT, Role.PHYSICIAN)
 export class SensorsController {
   constructor(private readonly sensorsService: SensorsService) {}
 
