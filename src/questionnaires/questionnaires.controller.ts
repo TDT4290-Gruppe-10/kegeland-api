@@ -1,10 +1,12 @@
-import { Body, Controller, Get, Post, UseGuards} from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { Delete, Param, Put, Query } from '@nestjs/common/decorators';
 import { ApiBearerAuth } from '@nestjs/swagger';
+
 import { FirebaseAuthGuard } from '../firebase/firebase-auth.guard';
 import { Role } from '../roles/enums/role.enum';
 import { Roles } from '../roles/roles.decorator';
 import { RolesGuard } from '../roles/roles.guard';
+
 import { AssignQuestionnaireDto } from './dto/assign-questionnaire.dto';
 import { CreateAnswerDto } from './dto/create-answer.dto';
 import { CreateQuestionnaireDto } from './dto/create-questionnaire.dto';
@@ -51,7 +53,10 @@ export class QuestionnairesController {
   }
 
   @Put(':id')
-  updateQuestionnaire(@Param('id') id: string, data: UpdateQuestionnaireDto) {
+  updateQuestionnaire(
+    @Param('id') id: string,
+    @Body() data: UpdateQuestionnaireDto,
+  ) {
     return this.questionnairesService.updateQuestionnaire(id, data);
   }
 
@@ -85,7 +90,7 @@ export class QuestionnairesController {
   updateAnswer(
     @Param('questionaireId') qid: string,
     @Param('id') id: string,
-    data: UpdateAnswerDto,
+    @Body() data: UpdateAnswerDto,
   ) {
     return this.questionnairesService.updateAnswer(qid, id, data);
   }

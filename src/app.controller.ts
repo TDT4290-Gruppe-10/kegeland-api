@@ -18,12 +18,4 @@ export class AppController {
   getHello() {
     return this.appService.getHello();
   }
-
-  @Get('halla')
-  @ApiBearerAuth('access-token')
-  @UseGuards(FirebaseAuthGuard, RolesGuard)
-  @Roles(Role.PHYSICIAN)
-  getHalla() {
-    return this.appService.getHalla();
-  }
 }

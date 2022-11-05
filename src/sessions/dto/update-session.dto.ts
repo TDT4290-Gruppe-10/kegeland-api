@@ -1,5 +1,15 @@
-import { PartialType } from '@nestjs/swagger';
+import { IsString, IsObject, IsOptional } from 'class-validator';
 
-import { CreateSessionDto } from './create-session.dto';
+export class UpdateSessionDto {
+  @IsOptional()
+  @IsString()
+  sensor?: string;
 
-export class UpdateSessionDto extends PartialType(CreateSessionDto) {}
+  @IsOptional()
+  @IsString()
+  userId?: string;
+
+  @IsOptional()
+  @IsObject()
+  data?: Record<string, number[]>;
+}
