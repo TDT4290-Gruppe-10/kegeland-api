@@ -1,15 +1,11 @@
-import {
-  Controller,
-  Get,
-  Param,
-  Delete,
-  UseGuards
-} from '@nestjs/common';
+import { Controller, Get, Param, Delete, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
+
 import { FirebaseAuthGuard } from '../firebase/firebase-auth.guard';
 import { Role } from '../roles/enums/role.enum';
 import { Roles } from '../roles/roles.decorator';
 import { RolesGuard } from '../roles/roles.guard';
+
 import { UsersService } from './users.service';
 
 @Controller('users')
