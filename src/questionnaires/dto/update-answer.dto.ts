@@ -1,5 +1,26 @@
-import { PartialType } from '@nestjs/swagger';
+import {
+  IsString,
+  IsNumber,
+  IsArray,
+  ArrayMinSize,
+  IsOptional,
+} from 'class-validator';
 
-import { CreateAnswerDto } from './create-answer.dto';
+export class UpdateAnswerDto {
+  @IsOptional()
+  @IsString()
+  userId?: string;
 
-export class UpdateAnswerDto extends PartialType(CreateAnswerDto) {}
+  @IsOptional()
+  @IsString()
+  sessionId?: string;
+
+  @IsOptional()
+  @IsNumber()
+  answeredAt?: number;
+
+  @IsOptional()
+  @IsArray()
+  @ArrayMinSize(1)
+  answers?: number[];
+}

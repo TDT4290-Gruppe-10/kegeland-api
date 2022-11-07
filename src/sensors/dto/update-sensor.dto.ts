@@ -1,5 +1,15 @@
-import { PartialType } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
+import { IsString, IsArray, ArrayNotEmpty, IsOptional } from 'class-validator';
 
-import { CreateSensorDto } from './create-sensor.dto';
+export class UpdateSensorDto {
+  @IsOptional()
+  @IsString()
+  @Transform((value) => value.value.toLowerCase())
+  name?: string;
 
-export class UpdateSensorDto extends PartialType(CreateSensorDto) {}
+  @IsOptional()
+  @IsArray()
+  @ArrayNotEmpty()
+  @IsString({ each: true })
+  labels?: string[];
+}

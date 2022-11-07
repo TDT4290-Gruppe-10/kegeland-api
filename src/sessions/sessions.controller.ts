@@ -8,6 +8,8 @@ import {
   Param,
   Query,
   UseGuards,
+  UseInterceptors,
+  ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
 
@@ -22,6 +24,7 @@ import { UpdateSessionDto } from './dto/update-session.dto';
 import { ListSessionsDto } from './dto/list-sessions.dto';
 
 @Controller('sessions')
+@UseInterceptors(ClassSerializerInterceptor)
 @ApiBearerAuth('access-token')
 @UseGuards(FirebaseAuthGuard, RolesGuard)
 export class SessionsController {

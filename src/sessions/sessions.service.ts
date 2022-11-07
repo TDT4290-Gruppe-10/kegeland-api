@@ -55,7 +55,7 @@ export class SessionsService {
     await this.firebaseService.firestore
       .collection('sessions')
       .doc(id)
-      .set(data);
+      .set(data, { merge: true });
     return { id, ...data };
   }
 

@@ -53,7 +53,10 @@ export class QuestionnairesController {
   }
 
   @Put(':id')
-  updateQuestionnaire(@Param('id') id: string, data: UpdateQuestionnaireDto) {
+  updateQuestionnaire(
+    @Param('id') id: string,
+    @Body() data: UpdateQuestionnaireDto,
+  ) {
     return this.questionnairesService.updateQuestionnaire(id, data);
   }
 
@@ -87,7 +90,7 @@ export class QuestionnairesController {
   updateAnswer(
     @Param('questionaireId') qid: string,
     @Param('id') id: string,
-    data: UpdateAnswerDto,
+    @Body() data: UpdateAnswerDto,
   ) {
     return this.questionnairesService.updateAnswer(qid, id, data);
   }
