@@ -17,11 +17,19 @@ import { ResetPasswordDto } from './dto/reset-password.dto';
 import { TokenCredentials } from './entities/token-credentials.entity';
 import { UserEntity } from './entities/user.entity';
 
+/**
+ * Controller for auth module
+ */
 @Controller('auth')
+@UseInterceptors(ClassSerializerInterceptor)
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-
-  @UseInterceptors(ClassSerializerInterceptor)
+  
+  /**
+   * Endpoint for authenticating existing user
+   * @param loginCredentials log in parameters as body parameters: {email: string, passoword: string}
+   * @returns authorised user object (UserEntity)
+   */
   @Post('login')
   async login(
     @Body() loginCredentials: LoginCredentialsDto,
@@ -29,13 +37,22 @@ export class AuthController {
     return this.authService.login(loginCredentials);
   }
 
+  /**
+   * Endpoint for revoking authentication for user (logging out of system)
+   * @param userId id of user to be logged out
+   * @returns Promise<void>
+   */
   @Post('logout')
   @UseGuards(FirebaseAuthGuard)
   async logout(@AuthUser() userId: string) {
     return this.authService.logout(userId);
   }
 
-  @UseInterceptors(ClassSerializerInterceptor)
+  /**
+   * Endpoint for registering new user to system
+   * @param registerCredentials registration parameters as body: RegisterCredentialsDto
+   * @returns registered user (UserEntity)
+   */
   @Post('register')
   async register(
     @Body() registerCredentials: RegisterCredentialsDto,
@@ -43,12 +60,21 @@ export class AuthController {
     return this.authService.register(registerCredentials);
   }
 
+  /**
+   * Enpoint for reseting password for user
+   * @param reset email
+   * @returns Promise<void>
+   */
   @Post('reset')
   async resetPassword(@Body() reset: ResetPasswordDto): Promise<void> {
     return this.authService.resetPassword(reset);
   }
 
-  //@UseInterceptors(ClassSerializerInterceptor)
+  /**
+   * Endpoint for getting new auth credentials
+   * @param refreshToken refresh token from previous authentication call
+   * @returns new token credentials
+   */
   @Post('refresh')
   async refresh(
     @Body() refreshToken: RefreshTokenDto,

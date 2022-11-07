@@ -1,5 +1,8 @@
 import { registerAs } from '@nestjs/config';
 
+/**
+ * Configuration for firebase connection
+ */
 export default registerAs('firebase', () => ({
   admin: {
     credPath: process.env.GOOGLE_APPLICATION_CREDENTIALS,

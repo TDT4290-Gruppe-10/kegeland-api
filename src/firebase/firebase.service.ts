@@ -14,6 +14,9 @@ export class FirebaseService implements OnModuleInit {
     private readonly config: ConfigType<typeof firebaseConfig>,
   ) {}
 
+  /**
+   * Initialized firebase and sets class field values
+   */
   onModuleInit() {
     // Initialize the admin-sdk
     this.firebaseAdmin = admin.initializeApp({
