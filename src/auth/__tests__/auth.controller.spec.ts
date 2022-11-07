@@ -7,24 +7,23 @@ import {
 import { Test, TestingModule } from '@nestjs/testing';
 import { FirebaseAuthGuard } from 'src/firebase/firebase-auth.guard';
 import { Role } from 'src/roles/enums/role.enum';
-
 import { AuthService } from '../auth.service';
 import { AuthController } from '../auth.controller';
 import { LoginCredentialsDto } from '../dto/login-credentials.dto';
 import { RegisterCredentialsDto } from '../dto/register-credentials.dto';
 import { ResetPasswordDto } from '../dto/reset-password.dto';
 import { RefreshTokenDto } from '../dto/refresh-token.dto';
-
-import { serviceMockForController } from './mocks';
+import { authServiceMock } from 'src/__mocks__';
 
 describe('QuestionnairesController', () => {
   let authController: AuthController;
   let spyService: AuthService;
   let app: INestApplication;
+
   beforeEach(async () => {
     const ApiServiceProvider = {
       provide: AuthService,
-      useFactory: () => ({ ...serviceMockForController }),
+      useFactory: () => ({ ...authServiceMock }),
     };
     const moduleRef: TestingModule = await Test.createTestingModule({
       controllers: [AuthController],

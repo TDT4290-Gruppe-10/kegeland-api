@@ -7,15 +7,13 @@ import {
 import { Test, TestingModule } from '@nestjs/testing';
 import { FirebaseAuthGuard } from 'src/firebase/firebase-auth.guard';
 import { Sensor } from 'src/enums/sensor.enum';
-
 import { QuestionnairesService } from '../questionnaires.service';
 import { QuestionnairesController } from '../questionnaires.controller';
 import { AssignQuestionnaireDto } from '../dto/assign-questionnaire.dto';
 import { UpdateQuestionnaireDto } from '../dto/update-questionnaire.dto';
 import { CreateAnswerDto } from '../dto/create-answer.dto';
 import { UpdateAnswerDto } from '../dto/update-answer.dto';
-
-import { serviceMockForController } from './mocks';
+import { questionnairesServiceMock } from 'src/__mocks__';
 
 describe('QuestionnairesController', () => {
   let questionnairesController: QuestionnairesController;
@@ -24,7 +22,7 @@ describe('QuestionnairesController', () => {
   beforeEach(async () => {
     const ApiServiceProvider = {
       provide: QuestionnairesService,
-      useFactory: () => ({ ...serviceMockForController }),
+      useFactory: () => ({ ...questionnairesServiceMock }),
     };
     const moduleRef: TestingModule = await Test.createTestingModule({
       controllers: [QuestionnairesController],

@@ -1,11 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
-import { FirebaseService } from 'src/firebase/firebase.service';
-
 import { UsersService } from '../users.service';
 import { UsersController } from '../users.controller';
-
-import { adminMock, FirebaseMock, firebaseMock } from './mocks';
+import { INestApplication } from '@nestjs/common';
+import { FirebaseService } from 'src/firebase/firebase.service';
+import { FirebaseMock, adminMock, dbMock } from 'src/__mocks__';
 
 describe('Users', () => {
   let app: INestApplication;
@@ -34,11 +32,11 @@ describe('Users', () => {
   describe('user service tests', () => {
     it(`findOne`, async () => {
       const res = await usersService.findOne('_id');
-      expect(res).toStrictEqual(firebaseMock.userDetails[0]);
+      expect(res).toStrictEqual(dbMock.userDetails[0]);
     });
     it(`findAllPatients`, async () => {
       const res = await usersService.findAllPatients();
-      expect(res).toStrictEqual(firebaseMock.userDetails);
+      expect(res).toStrictEqual(dbMock.userDetails);
     });
     it(`getPatientOverview`, async () => {
       const res = await usersService.getPatientOverview('_id');
