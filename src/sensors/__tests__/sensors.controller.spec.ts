@@ -56,7 +56,7 @@ describe('SessionsController', () => {
 
     it('should call findAll in controller', async () => {
       await request(app.getHttpServer()).get('/sensors');
-      expect(spyService.findOne).toHaveBeenCalled();
+      expect(spyService.findAll).toHaveBeenCalled();
     });
 
     it('should call update in controller', async () => {
