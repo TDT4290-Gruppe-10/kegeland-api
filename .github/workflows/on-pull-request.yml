@@ -63,15 +63,13 @@ jobs:
     runs-on: ubuntu-latest
     environment: testing
     steps:
-    - uses: 'actions/checkout@v3'
-    - id: 'auth'
-      name: 'Authenticate to Google Cloud'
-      uses: 'google-github-actions/auth@v0'
-      with:
-        credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
-        create_credentials_file: true
-    - run: |-
-        echo '${{ steps.auth.outputs.credentials_file_path }}'
+    - name: "Create .env-file"
+      run: echo $ENV_VARS | base64 -d > .env
+
+    - uses: actions/checkout@v2
+    - name: "Cleanup"
+      run: |
+        rm .env
 
     # - uses: actions/checkout@v2
     # - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
