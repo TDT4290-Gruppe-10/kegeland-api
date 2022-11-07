@@ -72,7 +72,7 @@ jobs:
         echo $ENV_VARS | base64
         echo $(echo ${ENV_VARS} | base64)
       
-
+    - uses: actions/checkout@v3
     - name: "Cleanup"
       run: |
         rm .env
