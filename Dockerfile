@@ -9,4 +9,4 @@ COPY . .
 
 RUN yarn build
 
-CMD [ "node", "dist/main.js" ]
+CMD ["node", "dist/main.js"]

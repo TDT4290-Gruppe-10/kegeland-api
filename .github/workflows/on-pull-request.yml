@@ -15,14 +15,57 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  deploy:
-    # needs: build
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    environment: testing
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: "Create .env-file"
-        env:
-          $ENV_VARS: ${{ secrets.ENV_VARS }}
-        run: |
-          echo $ENV_VARS | base64 --decode > .env
-      - run: cat .env
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Lint files
+        run: yarn lint
+
+      - name: Run tests
+        run: yarn test:cov
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3.1.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          verbose: true
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Deploy to Heroku
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "tdt4290-api"
+          heroku_email: "simekri@stud.ntnu.no"
+          usedocker: true
