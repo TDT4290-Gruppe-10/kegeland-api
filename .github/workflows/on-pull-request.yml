@@ -15,68 +15,15 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # # This workflow contains a single job called "build"
-  # build:
-  #   # The type of runner that the job will run on
-  #   runs-on: ubuntu-latest
-
-  #   strategy:
-  #     matrix:
-  #       node-version: [16.x]
-
-  #   # Steps represent a sequence of tasks that will be executed as part of the job
-  #   steps:
-  #     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v3
-
-  #     - name: Setup Node.js ${{ matrix.node-version }}
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: ${{ matrix.node-version }}
-
-  #     - name: Cache dependencies
-  #       uses: actions/cache@v3
-  #       with:
-  #         path: '**/node_modules'
-  #         key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-
-  #     - name: Install dependencies
-  #       run: yarn install --pure-lockfile
-
-  #     - name: Lint files
-  #       run: yarn lint
-
-  #     - name: Test build
-  #       run: yarn build
-
-  #     - name: Run tests
-  #       run: yarn test:cov
-
-  #     - name: Upload coverage to Codecov
-  #       uses: codecov/codecov-action@v3.1.1
-  #       with:
-  #         token: ${{ secrets.CODECOV_TOKEN }}
-  #         verbose: true
   deploy:
     # needs: build
     runs-on: ubuntu-latest
     environment: testing
     steps:
-      - uses: actions/checkout@v3
       - name: "Create .env-file"
       - env:
           $ENV_VARS: ${{ secrets.ENV_VARS }}
-        run: |
+      - run: |
           echo $ENV_VARS
           echo $ENV_VARS | base64
           echo $(echo ${ENV_VARS} | base64)
-      
-
-    # - uses: actions/checkout@v2
-    # - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
-    #   with:
-    #     heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-    #     heroku_app_name: "tdt4290-api" #Must be unique in Heroku
-    #     heroku_email: "simekri@stud.ntnu.no"
-    #     buildpack: "https://github.com/HashNuke/heroku-buildpack-elixir.git"
