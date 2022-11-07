@@ -21,9 +21,9 @@ jobs:
     environment: testing
     steps:
       - name: "Create .env-file"
-      - env:
+        env:
           $ENV_VARS: ${{ secrets.ENV_VARS }}
-      - run: |
+        run: |
           echo $ENV_VARS
           echo $ENV_VARS | base64
           echo $(echo ${ENV_VARS} | base64)
