@@ -59,7 +59,7 @@ jobs:
   #         token: ${{ secrets.CODECOV_TOKEN }}
   #         verbose: true
   deploy:
-    needs: build
+    # needs: build
     runs-on: ubuntu-latest
     environment: testing
     steps:
