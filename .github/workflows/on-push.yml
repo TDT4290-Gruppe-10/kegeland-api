@@ -11,7 +11,6 @@ on:
 jobs:
   # Deploy the api services as a Heroku app
   deploy:
-    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
