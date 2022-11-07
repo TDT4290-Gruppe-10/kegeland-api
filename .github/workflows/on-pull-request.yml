@@ -63,19 +63,15 @@ jobs:
     runs-on: ubuntu-latest
     environment: testing
     steps:
-    - uses: actions/checkout@v3
-    - name: "Create .env-file"
-    - env:
-        $ENV_VARS: ${{ secrets.ENV_VARS }}
-      run: |
-        echo $ENV_VARS
-        echo $ENV_VARS | base64
-        echo $(echo ${ENV_VARS} | base64)
+      - uses: actions/checkout@v3
+      - name: "Create .env-file"
+      - env:
+          $ENV_VARS: ${{ secrets.ENV_VARS }}
+        run: |
+          echo $ENV_VARS
+          echo $ENV_VARS | base64
+          echo $(echo ${ENV_VARS} | base64)
       
-    - uses: actions/checkout@v3
-    - name: "Cleanup"
-      run: |
-        rm .env
 
     # - uses: actions/checkout@v2
     # - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
