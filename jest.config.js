@@ -8,7 +8,7 @@ module.exports = {
   transform: {
     '^.+\\.(t|j)s$': 'ts-jest',
   },
-  coverageDirectory: '../coverage',
+  coverageDirectory: './coverage',
   clearMocks: true,
   cacheDirectory: '.jest/cache',
   collectCoverageFrom: ['src/**/*.(t|j)s', '!**/node_modules/**'],
