@@ -1,8 +1,10 @@
 import { registerAs } from '@nestjs/config';
 
 export default registerAs('firebase', () => ({
-  admin: {
-    credPath: process.env.GOOGLE_APPLICATION_CREDENTIALS,
+  serviceAccount: {
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    privateKey: JSON.parse(process.env.PRIVATE_KEY).privateKey,
+    clientEmail: process.env.SERVICE_ACCOUNT_EMAIL,
   },
   sdk: {
     apiKey: process.env.FIREBASE_API_KEY,
