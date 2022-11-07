@@ -3,7 +3,7 @@ import { registerAs } from '@nestjs/config';
 export default registerAs('firebase', () => ({
   serviceAccount: {
     projectId: process.env.FIREBASE_PROJECT_ID,
-    privateKey: process.env.PRIVATE_KEY,
+    privateKey: JSON.parse(process.env.PRIVATE_KEY).privateKey,
     clientEmail: process.env.SERVICE_ACCOUNT_EMAIL,
   },
   sdk: {
