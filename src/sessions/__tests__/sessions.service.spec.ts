@@ -76,7 +76,7 @@ describe('Sessions', () => {
         },
         sensor: 'empatica',
         userId: '_uid',
-        createdAt: timestamp(),
+        createdAt: res.createdAt,
       };
       expect(res).toEqual(expectedRes);
     });
