@@ -1,7 +1,8 @@
-![Website](https://img.shields.io/website?down_color=red&down_message=error&label=Health%20Checks&logo=heroku&logoColor=orange&up_message=ok&url=https%3A%2F%2Ftdt4290-api.herokuapp.com%2Fapi%2Fhealth)
 [![CI](https://github.com/TDT4290-Gruppe-10/kegeland-api/actions/workflows/on-pull-request.yml/badge.svg)](https://github.com/TDT4290-Gruppe-10/kegeland-api/actions/workflows/on-pull-request.yml)
 [![CD](https://github.com/TDT4290-Gruppe-10/kegeland-api/actions/workflows/on-push.yml/badge.svg)](https://github.com/TDT4290-Gruppe-10/kegeland-api/actions/workflows/on-push.yml)
 [![codecov](https://codecov.io/gh/TDT4290-Gruppe-10/kegeland-api/branch/main/graph/badge.svg?token=WNR65GN461)](https://codecov.io/gh/TDT4290-Gruppe-10/kegeland-api)
+![Website](https://img.shields.io/website?down_color=red&down_message=error&label=Heroku&logo=heroku&logoColor=orange&up_message=ok&url=https%3A%2F%2Ftdt4290-api.herokuapp.com%2Fapi%2Fhealth)
+[![Swagger](https://img.shields.io/badge/-OpenAPI%20Docs-gray?logo=swagger)](https://tdt4290-api.herokuapp.com/api/docs)
 
 # Description
 This repository is a part of a delivery in the course [TDT4290 costumer driven project](https://www.ntnu.no/studier/emner/TDT4290/2017/1#tab=omEmnet) at NTNU. 
