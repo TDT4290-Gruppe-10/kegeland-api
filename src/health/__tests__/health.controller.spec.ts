@@ -26,7 +26,7 @@ describe('HealthController', () => {
           provide: HttpHealthIndicator,
           useFactory: () => ({
             pingCheck: jest.fn(() =>
-              Promise.resolve(goodHealthCheckMock('nestjs_docs')),
+              Promise.resolve(goodHealthCheckMock('ping')),
             ),
           }),
         },
@@ -62,9 +62,7 @@ describe('HealthController', () => {
     });
 
     it('health check should return status "OK"', async () => {
-      const res = await request(app.getHttpServer()).get('/health');
-
-      expect(res.body.status).toBe('ok');
+      expect(controller.check()).resolves.toBe('ok');
     });
 
     it('should call storageCheck from path "/" if OS is not windows', async () => {
