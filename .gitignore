@@ -42,3 +42,6 @@ lerna-debug.log*
 coverage/
 
 /build
+
+# Compodoc
+/documentation/**

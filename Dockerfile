@@ -9,4 +9,6 @@ COPY . .
 
 RUN yarn build
 
+RUN yarn compodoc
+
 CMD ["node", "dist/main.js"]
