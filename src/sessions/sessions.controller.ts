@@ -30,18 +30,34 @@ import { ListSessionsDto } from './dto/list-sessions.dto';
 export class SessionsController {
   constructor(private readonly sessionsService: SessionsService) {}
 
+  /**
+   * Endpoint for fetching specific session by its ID
+   * @param id of session
+   * @returns Session object
+   */
   @Get(':id')
   @Roles(Role.PATIENT, Role.PHYSICIAN)
   async findOne(@Param('id') id: string) {
     return this.sessionsService.findOne(id);
   }
 
+  /**
+   * Endpoint for fetching all sessions based on query parameters
+   * @param filters query parameters passed in URL of request
+   * @returns list of Session objects according to query parameters
+   */
   @Get()
   @Roles(Role.PHYSICIAN)
   async findAll(@Query() filters: ListSessionsDto) {
     return this.sessionsService.findAll(filters);
   }
 
+  /**
+   * Endpoint for updating sessions object
+   * @param id of session
+   * @param updateSessionDto fields and data to be updated passed as body of request
+   * @returns updated session object
+   */
   @Put(':id')
   @Roles(Role.PATIENT)
   async update(
@@ -51,12 +67,22 @@ export class SessionsController {
     return this.sessionsService.update(id, updateSessionDto);
   }
 
+  /**
+   * Endpoint for creating session
+   * @param createSessionDto data for session passed as body of request
+   * @returns created session object
+   */
   @Post()
   @Roles(Role.PATIENT)
   async create(@Body() createSessionDto: CreateSessionDto) {
     return this.sessionsService.create(createSessionDto);
   }
 
+  /**
+   * Endpoint for deleting session object
+   * @param id id of session to be deleted
+   * @returns Promise<void>
+   */
   @Delete(':id')
   @Roles(Role.PATIENT, Role.PHYSICIAN)
   async delete(@Param('id') id: string) {

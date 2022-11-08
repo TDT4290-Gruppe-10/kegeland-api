@@ -3,8 +3,8 @@ import { INestApplication } from '@nestjs/common';
 import { FirebaseService } from 'src/firebase/firebase.service';
 import { Sensor } from 'src/enums/sensor.enum';
 import { timestamp } from 'src/utils/timestamp';
+import { FirebaseMock, adminMock } from 'src/__mocks__';
 
-import { adminMock, FirebaseMock } from '../../users/__tests__/mocks';
 import { QuestionnairesService } from '../questionnaires.service';
 import { QuestionnairesController } from '../questionnaires.controller';
 import { AssignQuestionnaireDto } from '../dto/assign-questionnaire.dto';

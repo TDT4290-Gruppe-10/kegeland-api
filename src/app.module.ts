@@ -11,6 +11,7 @@ import firebaseConfig from './config/firebase.config';
 import { QuestionnairesModule } from './questionnaires/questionnaires.module';
 import { SensorsModule } from './sensors/sensors.module';
 import { SessionsModule } from './sessions/sessions.module';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { SessionsModule } from './sessions/sessions.module';
       load: [firebaseConfig],
     }),
     FirebaseModule,
+    HealthModule,
     AuthModule,
     QuestionnairesModule,
     SensorsModule,

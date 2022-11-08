@@ -11,6 +11,10 @@ import { RolesGuard } from './roles/roles.guard';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
+  /**
+   * Basic call to check that API is live
+   * @returns "Hello world!"
+   */
   @Get('hello')
   @ApiBearerAuth('access-token')
   @UseGuards(FirebaseAuthGuard, RolesGuard)

@@ -6,13 +6,12 @@ import {
 } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { FirebaseAuthGuard } from 'src/firebase/firebase-auth.guard';
+import { sessionsServiceMock } from 'src/__mocks__';
 
 import { SessionsService } from '../sessions.service';
 import { SessionsController } from '../sessions.controller';
 import { UpdateSessionDto } from '../dto/update-session.dto';
 import { CreateSessionDto } from '../dto/create-session.dto';
-
-import { serviceMockForController } from './mocks';
 
 describe('SessionsController', () => {
   let sessionsController: SessionsController;
@@ -21,7 +20,7 @@ describe('SessionsController', () => {
   beforeEach(async () => {
     const ApiServiceProvider = {
       provide: SessionsService,
-      useFactory: () => ({ ...serviceMockForController }),
+      useFactory: () => ({ ...sessionsServiceMock }),
     };
     const moduleRef: TestingModule = await Test.createTestingModule({
       controllers: [SessionsController],

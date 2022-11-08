@@ -6,13 +6,12 @@ import {
 } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { FirebaseAuthGuard } from 'src/firebase/firebase-auth.guard';
+import { sensorsServiceMock } from 'src/__mocks__';
 
 import { SensorsService } from '../sensors.service';
 import { SensorsController } from '../sensors.controller';
 import { UpdateSensorDto } from '../dto/update-sensor.dto';
 import { CreateSensorDto } from '../dto/create-sensor.dto';
-
-import { serviceMockForController } from './mocks';
 
 describe('SessionsController', () => {
   let sensorsController: SensorsController;
@@ -21,7 +20,7 @@ describe('SessionsController', () => {
   beforeEach(async () => {
     const ApiServiceProvider = {
       provide: SensorsService,
-      useFactory: () => ({ ...serviceMockForController }),
+      useFactory: () => ({ ...sensorsServiceMock }),
     };
     const moduleRef: TestingModule = await Test.createTestingModule({
       controllers: [SensorsController],

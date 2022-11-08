@@ -1,12 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import { FirebaseService } from 'src/firebase/firebase.service';
+import { FirebaseMock, adminMock, dbMock } from 'src/__mocks__';
 
-import {
-  adminMock,
-  FirebaseMock,
-  firebaseMock,
-} from '../../users/__tests__/mocks';
 import { SensorsService } from '../sensors.service';
 import { SensorsController } from '../sensors.controller';
 import { CreateSensorDto } from '../dto/create-sensor.dto';
@@ -40,7 +36,7 @@ describe('Sessions', () => {
   describe('user service tests', () => {
     it(`findOne`, async () => {
       const res = await sensorsService.findOne('_id');
-      expect(res).toStrictEqual({ id: '_id', ...firebaseMock.sensors[0] });
+      expect(res).toStrictEqual({ id: '_id', ...dbMock.sensors[0] });
     });
     it(`findAll`, async () => {
       const res = await sensorsService.findAll();

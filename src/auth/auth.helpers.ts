@@ -9,6 +9,12 @@ import { plainToInstance } from 'class-transformer';
 
 import { TokenCredentials } from './entities/token-credentials.entity';
 
+/**
+ * Firebase helper function to sign in user to system
+ * @param email
+ * @param password
+ * @returns user id and access credentials
+ */
 export async function signInUser(email: string, password: string) {
   return signInWithEmailAndPassword(getAuth(), email, password)
     .then(({ user: { accessToken, uid }, _tokenResponse }) => {

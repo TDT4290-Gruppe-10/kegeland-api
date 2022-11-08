@@ -33,6 +33,11 @@ export class AuthService {
     private readonly firebaseService: FirebaseService,
   ) {}
 
+  /**
+   * Function for logging user into system
+   * @param loginCredentials {email: string, password: string}
+   * @returns authenticated UserEntity
+   */
   async login(loginCredentials: LoginCredentialsDto) {
     const { email, password } = loginCredentials;
     const { id, tokens } = await signInUser(email, password);
@@ -44,12 +49,22 @@ export class AuthService {
     return plainToInstance(UserEntity, { id, email, details, tokens });
   }
 
+  /**
+   * Function used to log out users - revokes auth tokens
+   * @param userId
+   * @returns Promise<void>
+   */
   async logout(userId: string) {
     return this.firebaseService.firebaseAdmin
       .auth()
       .revokeRefreshTokens(userId);
   }
 
+  /**
+   * Function used to register new users to the system
+   * @param registerCredentials {password: string, name?: string, email: string, password: string, roles: Role[]}
+   * @returns id of registered user, or throws error
+   */
   async register(registerCredentials: RegisterCredentialsDto) {
     const { email, password, ...details } = registerCredentials;
 
@@ -84,10 +99,20 @@ export class AuthService {
     return plainToInstance(UserEntity, { id: userId, email, details, tokens });
   }
 
+  /**
+   * Function to reset email for user
+   * @param email as {email:string} sends
+   * @returns sends a password reset email to the given email address.
+   */
   async resetPassword({ email }: ResetPasswordDto) {
     return sendPasswordResetEmail(getSdkAuth(), email);
   }
 
+  /**
+   * Function to issue new auth credentials for user
+   * @param refreshToken as {refreshToken: string}
+   * @returns new token credentials
+   */
   async refresh({ refreshToken }: RefreshTokenDto) {
     return this.httpService.axiosRef
       .post<RefreshResponse>(

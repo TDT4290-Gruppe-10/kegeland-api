@@ -29,3 +29,5 @@ jobs:
           heroku_app_name: "tdt4290-api"
           heroku_email: "simekri@stud.ntnu.no"
           usedocker: true
+          healthcheck: "https://tdt4290-api.herokuapp.com/api/health"
+          checkstring: "ok"
