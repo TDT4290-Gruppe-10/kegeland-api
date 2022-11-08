@@ -6,13 +6,12 @@ import {
 } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { FirebaseAuthGuard } from 'src/firebase/firebase-auth.guard';
+import { sensorsServiceMock } from 'src/__mocks__';
 
 import { SensorsService } from '../sensors.service';
 import { SensorsController } from '../sensors.controller';
 import { UpdateSensorDto } from '../dto/update-sensor.dto';
 import { CreateSensorDto } from '../dto/create-sensor.dto';
-
-import { sensorsServiceMock } from 'src/__mocks__';
 
 describe('SessionsController', () => {
   let sensorsController: SensorsController;

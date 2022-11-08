@@ -24,7 +24,7 @@ import { UserEntity } from './entities/user.entity';
 @UseInterceptors(ClassSerializerInterceptor)
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-  
+
   /**
    * Endpoint for authenticating existing user
    * @param loginCredentials log in parameters as body parameters: {email: string, passoword: string}

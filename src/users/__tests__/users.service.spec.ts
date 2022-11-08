@@ -1,9 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UsersService } from '../users.service';
-import { UsersController } from '../users.controller';
 import { INestApplication } from '@nestjs/common';
 import { FirebaseService } from 'src/firebase/firebase.service';
 import { FirebaseMock, adminMock, dbMock } from 'src/__mocks__';
+
+import { UsersController } from '../users.controller';
+import { UsersService } from '../users.service';
 
 describe('Users', () => {
   let app: INestApplication;

@@ -17,7 +17,7 @@ export class FirebaseAuthStrategy extends PassportStrategy(
 
   /**
    * Validates a token
-   * @param token 
+   * @param token
    * @returns user
    */
   async validate(token: string) {

@@ -50,7 +50,7 @@ export class AuthService {
   }
 
   /**
-   * Function used to log out users - revokes auth tokens 
+   * Function used to log out users - revokes auth tokens
    * @param userId
    * @returns Promise<void>
    */
@@ -110,7 +110,7 @@ export class AuthService {
 
   /**
    * Function to issue new auth credentials for user
-   * @param refreshToken as {refreshToken: string} 
+   * @param refreshToken as {refreshToken: string}
    * @returns new token credentials
    */
   async refresh({ refreshToken }: RefreshTokenDto) {

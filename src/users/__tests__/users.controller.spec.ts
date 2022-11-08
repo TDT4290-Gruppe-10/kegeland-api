@@ -2,9 +2,10 @@ import * as request from 'supertest';
 import { ExecutionContext, INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { FirebaseAuthGuard } from 'src/firebase/firebase-auth.guard';
+import { usersServiceMock } from 'src/__mocks__';
+
 import { UsersService } from '../users.service';
 import { UsersController } from '../users.controller';
-import { usersServiceMock } from 'src/__mocks__';
 
 describe('UsersController', () => {
   let usersController: UsersController;

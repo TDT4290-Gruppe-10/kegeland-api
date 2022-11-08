@@ -11,8 +11,8 @@ import { TokenCredentials } from './entities/token-credentials.entity';
 
 /**
  * Firebase helper function to sign in user to system
- * @param email 
- * @param password 
+ * @param email
+ * @param password
  * @returns user id and access credentials
  */
 export async function signInUser(email: string, password: string) {
