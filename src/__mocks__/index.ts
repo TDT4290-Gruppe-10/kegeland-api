@@ -3,7 +3,7 @@
  */
 export { dbMock } from './dbMock';
 export { FirebaseMock } from './firebaseMock';
-export {adminMock} from "./firebaseMock"
+export { adminMock } from './firebaseMock';
 export {
   usersServiceMock,
   sessionsServiceMock,

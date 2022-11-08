@@ -1,4 +1,7 @@
+import { Provider } from '@nestjs/common';
+import { FirebaseService } from 'src/firebase/firebase.service';
 import { UpdateSessionDto } from 'src/sessions/dto/update-session.dto';
+
 import { dbMock as firebaseDbMock } from './dbMock';
 
 export const adminMock = {
@@ -102,3 +105,11 @@ class FirebaseDocMock {
     return this.entries;
   }
 }
+
+export const FirebaseProviderMock: Provider<FirebaseService> = {
+  provide: FirebaseService,
+  useFactory: (): any => ({
+    firestore: new FirebaseMock(),
+    firebaseAdmin: { ...adminMock },
+  }),
+};
