@@ -1,3 +1,4 @@
+![Website](https://img.shields.io/website?down_color=red&down_message=error&label=Health%20Checks&logo=heroku&logoColor=orange&up_message=ok&url=https%3A%2F%2Ftdt4290-api.herokuapp.com%2Fapi%2Fhealth)
 [![CI](https://github.com/TDT4290-Gruppe-10/kegeland-api/actions/workflows/on-pull-request.yml/badge.svg)](https://github.com/TDT4290-Gruppe-10/kegeland-api/actions/workflows/on-pull-request.yml)
 [![CD](https://github.com/TDT4290-Gruppe-10/kegeland-api/actions/workflows/on-push.yml/badge.svg)](https://github.com/TDT4290-Gruppe-10/kegeland-api/actions/workflows/on-push.yml)
 [![codecov](https://codecov.io/gh/TDT4290-Gruppe-10/kegeland-api/branch/main/graph/badge.svg?token=WNR65GN461)](https://codecov.io/gh/TDT4290-Gruppe-10/kegeland-api)
@@ -35,7 +36,7 @@ In the root folder (`./src`) you will also find the following:
 
 # Getting started
 When the repository is cloned on your local machine, rename `.env.example` to `.env`. Thereby, you will need credentials for a google service account and a firebase web app. 
-> **_NOTE_**: The `env` values must be requested to simenkri@stud.ntnu.no or find them attached in the project delivery
+> **_NOTE_**: The `env` values must be requested to simekri@stud.ntnu.no or find them attached in the project delivery
 
 ## 1. Configure service acccount
 
