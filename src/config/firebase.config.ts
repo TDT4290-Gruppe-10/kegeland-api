@@ -6,7 +6,7 @@ import { registerAs } from '@nestjs/config';
 export default registerAs('firebase', () => ({
   serviceAccount: {
     projectId: process.env.FIREBASE_PROJECT_ID || '',
-    privateKey: JSON.parse(process.env.PRIVATE_KEY || "{privateKey: ''}")
+    privateKey: JSON.parse(process.env.PRIVATE_KEY || '{"privateKey": ""}')
       .privateKey,
     clientEmail: process.env.SERVICE_ACCOUNT_EMAIL || '',
   },
