@@ -12,7 +12,7 @@ export class HealthController {
   constructor(
     private health: HealthCheckService,
     private http: HttpHealthIndicator,
-    private readonly disk: DiskHealthIndicator,
+    public readonly disk: DiskHealthIndicator,
     private memory: MemoryHealthIndicator,
   ) {}
 
