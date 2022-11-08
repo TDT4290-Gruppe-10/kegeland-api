@@ -15,6 +15,11 @@ export class FirebaseAuthStrategy extends PassportStrategy(
     });
   }
 
+  /**
+   * Validates a token
+   * @param token 
+   * @returns user
+   */
   async validate(token: string) {
     const user: any = await this.firebaseService.firebaseAdmin
       .auth()

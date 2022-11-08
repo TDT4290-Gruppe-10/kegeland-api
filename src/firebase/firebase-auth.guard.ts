@@ -9,6 +9,11 @@ export class FirebaseAuthGuard extends AuthGuard('firebase-auth') {
     super();
   }
 
+  /**
+   * Function to check if request can pass the guard
+   * @param context Interface describing details about the current request pipeline.
+   * @returns boolean
+   */
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {

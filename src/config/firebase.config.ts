@@ -1,5 +1,8 @@
 import { registerAs } from '@nestjs/config';
 
+/**
+ * Configuration for firebase connection
+ */
 export default registerAs('firebase', () => ({
   serviceAccount: {
     projectId: process.env.FIREBASE_PROJECT_ID,

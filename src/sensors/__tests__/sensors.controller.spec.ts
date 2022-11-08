@@ -12,7 +12,7 @@ import { SensorsController } from '../sensors.controller';
 import { UpdateSensorDto } from '../dto/update-sensor.dto';
 import { CreateSensorDto } from '../dto/create-sensor.dto';
 
-import { serviceMockForController } from './mocks';
+import { sensorsServiceMock } from 'src/__mocks__';
 
 describe('SessionsController', () => {
   let sensorsController: SensorsController;
@@ -21,7 +21,7 @@ describe('SessionsController', () => {
   beforeEach(async () => {
     const ApiServiceProvider = {
       provide: SensorsService,
-      useFactory: () => ({ ...serviceMockForController }),
+      useFactory: () => ({ ...sensorsServiceMock }),
     };
     const moduleRef: TestingModule = await Test.createTestingModule({
       controllers: [SensorsController],

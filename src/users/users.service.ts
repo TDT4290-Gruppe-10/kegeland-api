@@ -5,6 +5,11 @@ import { FirebaseService } from 'src/firebase/firebase.service';
 export class UsersService {
   constructor(private readonly firebaseService: FirebaseService) {}
 
+  /**
+   * Function for finding User
+   * @param id of user to be returned
+   * @returns UserDetails object
+   */
   async findOne(id: string) {
     const snapshot = await this.firebaseService.firestore
       .collection('userDetails')
@@ -13,6 +18,10 @@ export class UsersService {
     return { id, ...snapshot.data() };
   }
 
+  /**
+   * Function for finding all objects in userDetails collection with "patient" role
+   * @returns list of all patients
+   */
   async findAllPatients() {
     const snapshot = await this.firebaseService.firestore
       .collection('userDetails')
@@ -25,6 +34,11 @@ export class UsersService {
     return docs;
   }
 
+  /**
+   * Function for getting patient workout overview
+   * @param uid id of user
+   * @returns object containing users full name and lsit of all sessions
+   */
   async getPatientOverview(uid: string) {
     const sessions = await this.firebaseService.firestore
       .collection('sessions')
@@ -40,6 +54,10 @@ export class UsersService {
     return { name: firstName + ' ' + lastName, sessionDates: sessionsArr };
   }
 
+  /**
+   * Function for deleting user both from userDetails collection and Users in firebase
+   * @param id of user to be deleted
+   */
   async delete(id: string): Promise<void> {
     await this.firebaseService.firestore
       .collection('userDetails')

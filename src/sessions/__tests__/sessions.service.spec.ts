@@ -1,16 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import { FirebaseService } from 'src/firebase/firebase.service';
-
-import {
-  adminMock,
-  FirebaseMock,
-  firebaseMock,
-} from '../../users/__tests__/mocks';
 import { SessionsService } from '../sessions.service';
 import { SessionsController } from '../sessions.controller';
 import { CreateSessionDto } from '../dto/create-session.dto';
 import { UpdateSessionDto } from '../dto/update-session.dto';
+import { FirebaseMock, adminMock, dbMock } from 'src/__mocks__';
 
 describe('Sessions', () => {
   let app: INestApplication;
@@ -40,7 +35,7 @@ describe('Sessions', () => {
   describe('sessions service tests', () => {
     it(`findOne`, async () => {
       const res = await sessionsService.findOne('_id');
-      expect(res).toStrictEqual(firebaseMock.sessions[0]);
+      expect(res).toStrictEqual(dbMock.sessions[0]);
     });
     it(`findAll`, async () => {
       const res = await sessionsService.findAll({
