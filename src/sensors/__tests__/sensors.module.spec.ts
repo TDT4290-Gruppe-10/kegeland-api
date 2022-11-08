@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
-import { FirebaseProviderMock } from 'src/__mocks__/firebaseMock';
 
+import { FirebaseProviderMock } from '../../__mocks__/firebaseMock';
 import { SensorsController } from '../sensors.controller';
 import { SensorsService } from '../sensors.service';
 

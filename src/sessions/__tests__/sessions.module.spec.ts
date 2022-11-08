@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
-import { FirebaseProviderMock } from 'src/__mocks__/firebaseMock';
 
+import { FirebaseProviderMock } from '../../__mocks__/firebaseMock';
 import { SessionsController } from '../sessions.controller';
 import { SessionsService } from '../sessions.service';
 

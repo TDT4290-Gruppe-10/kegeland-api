@@ -1,4 +1,5 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, Res, UseGuards } from '@nestjs/common';
+import { Redirect } from '@nestjs/common/decorators';
 import { ApiBearerAuth } from '@nestjs/swagger';
 
 import { AppService } from './app.service';
@@ -22,4 +23,12 @@ export class AppController {
   getHello() {
     return this.appService.getHello();
   }
+
+  /**
+   * Endpoint for catching wildcard routes, i.e. non-existing endpoints
+   */
+  @Get('*')
+  @Redirect('/')
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  redirect() {}
 }

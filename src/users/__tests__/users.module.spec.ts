@@ -1,7 +1,7 @@
 import { HttpModule } from '@nestjs/axios';
 import { Test } from '@nestjs/testing';
-import { FirebaseProviderMock } from 'src/__mocks__/firebaseMock';
 
+import { FirebaseProviderMock } from '../../__mocks__/firebaseMock';
 import { UsersController } from '../users.controller';
 import { UsersService } from '../users.service';
 
