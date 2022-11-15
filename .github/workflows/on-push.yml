@@ -1,0 +1,33 @@
+# Workflow configuration for continuous deployment
+
+name: CD
+
+on:
+  push:
+    branches: ['main']
+
+  workflow_dispatch:
+
+jobs:
+  # Deploy the api services as a Heroku app
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Deploy to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "tdt4290-api"
+          heroku_email: "simekri@stud.ntnu.no"
+          usedocker: true
+          healthcheck: "https://tdt4290-api.herokuapp.com/api/health"
+          checkstring: "ok"

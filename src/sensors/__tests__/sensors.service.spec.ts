@@ -1,11 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import { FirebaseService } from 'src/firebase/firebase.service';
+import { FirebaseMock, adminMock, dbMock } from 'src/__mocks__';
+
 import { SensorsService } from '../sensors.service';
 import { SensorsController } from '../sensors.controller';
 import { CreateSensorDto } from '../dto/create-sensor.dto';
 import { UpdateSensorDto } from '../dto/update-sensor.dto';
-import { FirebaseMock, adminMock, dbMock } from 'src/__mocks__';
 
 describe('Sessions', () => {
   let app: INestApplication;

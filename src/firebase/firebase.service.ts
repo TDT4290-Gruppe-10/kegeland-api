@@ -20,7 +20,7 @@ export class FirebaseService implements OnModuleInit {
   onModuleInit() {
     // Initialize the admin-sdk
     this.firebaseAdmin = admin.initializeApp({
-      credential: admin.credential.cert(this.config.admin.credPath),
+      credential: admin.credential.cert(this.config.serviceAccount),
     });
     // Initialize firestore client
     this.firestore = admin.firestore(this.firebaseAdmin);

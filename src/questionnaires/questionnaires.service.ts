@@ -17,7 +17,7 @@ export class QuestionnairesService {
 
   /**
    * Function for assigning questionnaire to a user for a given sensor
-   * @param data 
+   * @param data
    * @returns data upon successful request
    */
   async assignQuestionnaire(data: AssignQuestionnaireDto) {
@@ -78,7 +78,7 @@ export class QuestionnairesService {
 
   /**
    * Function for finding specific questionnaire by its ID
-   * @param id 
+   * @param id
    * @returns specific questionnaire
    */
   async findOneQuestionnaire(id: string) {
@@ -103,7 +103,7 @@ export class QuestionnairesService {
   }
 
   /**
-   * Function for updating questionnaire 
+   * Function for updating questionnaire
    * @param id of questionnaire to be updated
    * @param data fields and data to be updated
    * @returns Questionnaire

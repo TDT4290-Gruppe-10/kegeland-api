@@ -7,13 +7,14 @@ import {
 import { Test, TestingModule } from '@nestjs/testing';
 import { FirebaseAuthGuard } from 'src/firebase/firebase-auth.guard';
 import { Role } from 'src/roles/enums/role.enum';
+import { authServiceMock } from 'src/__mocks__';
+
 import { AuthService } from '../auth.service';
 import { AuthController } from '../auth.controller';
 import { LoginCredentialsDto } from '../dto/login-credentials.dto';
 import { RegisterCredentialsDto } from '../dto/register-credentials.dto';
 import { ResetPasswordDto } from '../dto/reset-password.dto';
 import { RefreshTokenDto } from '../dto/refresh-token.dto';
-import { authServiceMock } from 'src/__mocks__';
 
 describe('QuestionnairesController', () => {
   let authController: AuthController;

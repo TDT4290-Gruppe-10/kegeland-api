@@ -26,8 +26,8 @@ export class UsersController {
 
   /**
    * Endpoint for fetching specific user
-   * @param id 
-   * @returns UserDetails object 
+   * @param id
+   * @returns UserDetails object
    */
   @Get(':id')
   async findOne(@Param('id') id: string) {

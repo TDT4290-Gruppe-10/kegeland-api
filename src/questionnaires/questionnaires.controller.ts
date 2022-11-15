@@ -37,7 +37,7 @@ export class QuestionnairesController {
   /**
    * Endpoint for fetching all assignments per user
    * @param userId
-   * @param filters query parameters 
+   * @param filters query parameters
    * @returns Promise<{id: string}>
    */
   @Get('assignments/:userId')

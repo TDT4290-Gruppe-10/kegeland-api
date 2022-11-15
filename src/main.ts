@@ -5,7 +5,7 @@ import {
 } from '@nestjs/platform-fastify';
 import { ConfigService } from '@nestjs/config';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { ValidationPipe } from '@nestjs/common';
+import { RequestMethod, ValidationPipe } from '@nestjs/common';
 
 import { AppModule } from './app.module';
 
@@ -43,6 +43,6 @@ async function bootstrap() {
   SwaggerModule.setup('api/docs', app, document);
   const configService: ConfigService = app.get(ConfigService);
   app.enableCors({ origin: '*' });
-  await app.listen(configService.get<number>('SERVER_PORT') || 3000, '0.0.0.0');
+  await app.listen(configService.get<number>('PORT') || 8000, '0.0.0.0');
 }
 bootstrap();
