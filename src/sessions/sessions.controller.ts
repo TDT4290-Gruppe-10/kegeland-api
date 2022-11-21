@@ -11,7 +11,7 @@ import {
   UseInterceptors,
   ClassSerializerInterceptor,
 } from '@nestjs/common';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { FirebaseAuthGuard } from '../firebase/firebase-auth.guard';
 import { Role } from '../roles/enums/role.enum';
@@ -23,6 +23,7 @@ import { CreateSessionDto } from './dto/create-session.dto';
 import { UpdateSessionDto } from './dto/update-session.dto';
 import { ListSessionsDto } from './dto/list-sessions.dto';
 
+@ApiTags('Sessions')
 @Controller('sessions')
 @UseInterceptors(ClassSerializerInterceptor)
 @ApiBearerAuth('access-token')

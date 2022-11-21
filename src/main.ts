@@ -23,7 +23,9 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   const config = new DocumentBuilder()
     .setTitle('Kegeland API')
-    .setDescription('Api-services for NTNU Physiotherapy')
+    .setDescription(
+      'This page provides the API endpoints for NTNU Physiotherapy',
+    )
     .setVersion('1.0')
     .addBearerAuth(
       {

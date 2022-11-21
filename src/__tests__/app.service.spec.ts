@@ -18,10 +18,4 @@ describe('AppService', () => {
   it('AppController - should be defined', () => {
     expect(appController).toBeDefined();
   });
-
-  describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(appService.getHello()).toBe('Hello World!');
-    });
-  });
 });
