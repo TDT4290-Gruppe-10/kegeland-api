@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { Delete, Param, Put, Query } from '@nestjs/common/decorators';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { FirebaseAuthGuard } from '../firebase/firebase-auth.guard';
 import { Role } from '../roles/enums/role.enum';
@@ -17,6 +17,7 @@ import { UpdateAnswerDto } from './dto/update-answer.dto';
 import { UpdateQuestionnaireDto } from './dto/update-questionnaire.dto';
 import { QuestionnairesService } from './questionnaires.service';
 
+@ApiTags('Questionnaires')
 @Controller('questionnaires')
 @ApiBearerAuth('access-token')
 @UseGuards(FirebaseAuthGuard, RolesGuard)

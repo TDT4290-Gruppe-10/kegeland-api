@@ -6,6 +6,7 @@ import {
   ClassSerializerInterceptor,
   UseGuards,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { FirebaseAuthGuard } from 'src/firebase/firebase-auth.guard';
 
 import { AuthUser } from './auth.decorator';
@@ -20,6 +21,7 @@ import { UserEntity } from './entities/user.entity';
 /**
  * Controller for auth module
  */
+@ApiTags('Authentication')
 @Controller('auth')
 @UseInterceptors(ClassSerializerInterceptor)
 export class AuthController {

@@ -8,7 +8,7 @@ import {
   Param,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { Role } from '../roles/enums/role.enum';
 import { Roles } from '../roles/roles.decorator';
@@ -19,6 +19,7 @@ import { UpdateSensorDto } from './dto/update-sensor.dto';
 import { CreateSensorDto } from './dto/create-sensor.dto';
 import { SensorsService } from './sensors.service';
 
+@ApiTags('Sensors')
 @Controller('sensors')
 @ApiBearerAuth('access-token')
 @UseGuards(FirebaseAuthGuard, RolesGuard)

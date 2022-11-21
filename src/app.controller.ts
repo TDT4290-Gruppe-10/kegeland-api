@@ -13,18 +13,6 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   /**
-   * Basic call to check that API is live
-   * @returns "Hello world!"
-   */
-  @Get('hello')
-  @ApiBearerAuth('access-token')
-  @UseGuards(FirebaseAuthGuard, RolesGuard)
-  @Roles(Role.PATIENT)
-  getHello() {
-    return this.appService.getHello();
-  }
-
-  /**
    * Endpoint for catching wildcard routes, i.e. non-existing endpoints
    */
   @Get('*')
