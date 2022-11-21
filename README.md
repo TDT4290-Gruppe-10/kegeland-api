@@ -9,7 +9,8 @@
 > Documentation for the API-endpoints can be found [here](https://tdt4290-api.herokuapp.com/api/docs)
 
 # Description
-This repository is a part of a delivery in the course [TDT4290 costumer driven project](https://www.ntnu.no/studier/emner/TDT4290/2017/1#tab=omEmnet) at NTNU. 
+
+This repository is a part of a delivery in the course [TDT4290 costumer driven project](https://www.ntnu.no/studier/emner/TDT4290/2017/1#tab=omEmnet) at NTNU.
 
 Here, you will find the code for the API part of the project, which in general this is a REST API based on `http` requests.
 
@@ -18,13 +19,16 @@ The intention behind this service is to structure data query and flow for the Ke
 The project is based on the [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
 # Overall structure
+
 This API is a modularized structure, based on the Nestjs framework.
-Each service has: 
+Each service has:
+
 - a `*.module.ts` that exports the module so that it can be consumed by the application
 - a `*.controller.ts` that serves the endpoints (`get`, `post`, `put` and `delete` methods)
 - a `*.service.ts` that delivers functions consumed by the controller. It directly queries the database (firebase) and appropriate logic.
 
 In this API you can find the following services:
+
 - `auth` a service for handling authentication of users. Inlcuding authenticating, creating and deleting users.
 - `firebase` a service that handles the connection between the API and the database hosted in [firebase](https://firebase.google.com/)
 - `questionnaires` a service that handles requests and queries regarding the Questionnaires entity in the database
@@ -33,14 +37,19 @@ In this API you can find the following services:
 - `users` a service that handles requests and queries regarding the Users entity in the database
 
 In the root folder (`./src`) you will also find the following:
+
 - `app.module.ts` imports all other modules and make their services availible for consumption in the API.
 - `main.ts` initialises the application
 - other util files including files for lint and package handling and other configuration files
 
+## Development view
 
+<img src="resources/0 Main document (1).svg">
 
 # Getting started
-When the repository is cloned on your local machine, rename `.env.example` to `.env`. Thereby, you will need credentials for a google service account and a firebase web app. 
+
+When the repository is cloned on your local machine, rename `.env.example` to `.env`. Thereby, you will need credentials for a google service account and a firebase web app.
+
 > **_NOTE_**: The `env` values must be requested to simekri@stud.ntnu.no or find them attached in the project delivery
 
 ## 1. Configure service acccount
@@ -81,17 +90,22 @@ $ yarn start
 ```
 
 ## 5. Test
+
 In this project we have develped two main types of tests:
+
 1. Tests for controllers (can be found in `<modulename>.controller.spec.ts` in the modules `__tests__` directory)
    - Verifies that a call to an endpoint will trigger the correct service
 2. Tests for services (can be found in `<modulename>.service.spec.ts` in the modules `__tests__` directory)
    - Verifies the logic of the service and its return values
 
 ### Mocking firebase
+
 Due to this project relying on the firebase service, we have not had access to a test database, hence we have mocked the implementation of firebase. This can be found in `./src/__mocks__/firebaseMock` and please note that it has not been prioritized to spend much time on this - it will mock neccesary funtions to ensure that the services use the right logic, but is not intended to actually simulate a database like firebase.
+
 > **_NOTE_**: Please read more about test strategy and coverage in the submitted report
 
 ### Running tests
+
 ```bash
 # unit tests and e2e
 $ yarn test
@@ -101,16 +115,18 @@ $ yarn test:cov
 ```
 
 # Further development
-This project has been developed with the idea in mind that it should be maintained and further developed by others. 
-We encourage to continue implmenting the Nestjs framwork and its applications. 
+
+This project has been developed with the idea in mind that it should be maintained and further developed by others.
+We encourage to continue implmenting the Nestjs framwork and its applications.
+
 > **_NOTE_**: Our report covers more details about further work
 
 ## Creating new module
 
 Run the following command to create a new module:
+
 ```bash
 $ nest generate <schematic> <name> [options]
 ```
+
 You can read more about generating new modules in Nestjs [here](https://docs.nestjs.com/cli/usages#nest-generate)
-
-
